@@ -1,4 +1,4 @@
-import data_download as dd
+import data_download
 import data_plotting as dplt
 from utils import *
 
@@ -12,10 +12,13 @@ def main():
     period = input("Введите период для данных (например, '1mo' для одного месяца): ")
 
     # Fetch stock data
-    stock_data = dd.fetch_stock_data(ticker, period)
+    stock_data = data_download.fetch_stock_data(ticker, period)
 
     # Add moving average to the data
-    stock_data = dd.add_moving_average(stock_data)
+    stock_data = data_download.add_moving_average(stock_data)
+
+    # Add RSI to the data
+    stock_data = data_download.add_rsi(stock_data)
 
     # Plot the data
     dplt.create_and_save_plot(stock_data, ticker, period)
