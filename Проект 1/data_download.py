@@ -3,9 +3,10 @@ import pandas_ta
 import yfinance as yf
 
 
-def fetch_stock_data(ticker, period='1mo'):
+def fetch_stock_data(ticker, period: str = None, start: str = None, end: str = None):
     stock = yf.Ticker(ticker)
-    data = stock.history(period=period)
+    data = stock.history(period=period, start=start, end=end)
+    # data = stock.history(start='2024-01-24', end='2024-04-24')
     return data
 
 
@@ -25,3 +26,5 @@ def add_rsi(data: pandas.DataFrame, length: int = 14) -> pandas.DataFrame:
 
     data['RSI'] = pandas_ta.rsi(data['Close'], length=length)
     return data
+
+

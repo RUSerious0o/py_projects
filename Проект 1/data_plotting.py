@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def create_and_save_plot(data, ticker, period, filename=None):
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
 
     if 'Date' not in data:
         if pd.api.types.is_datetime64_any_dtype(data.index):
@@ -26,7 +26,7 @@ def create_and_save_plot(data, ticker, period, filename=None):
     plt.legend()
 
     if filename is None:
-        filename = f"{ticker}_{period}_stock_price_chart.png"
+        filename = f"{ticker}_{period if period else 'period'}_stock_price_chart.png"
 
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
