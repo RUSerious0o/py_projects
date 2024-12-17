@@ -2,15 +2,18 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def create_and_save_plot(data, ticker, period, filename=None):
+def create_and_save_plot(data, ticker, period, filename=None, style_num=0):
     plt.figure(figsize=(12, 6))
+
+    styles = ('default', 'dark_background', 'ggplot')
+    plt.style.use(styles[style_num])
 
     if 'Date' not in data:
         if pd.api.types.is_datetime64_any_dtype(data.index):
             dates = data.index.to_numpy()
             plt.plot(dates, data['Close'].values, label='Close Price')
             plt.plot(dates, data['Moving_Average'].values, label='Moving Average')
-            plt.plot(dates, data['RSI'].values, label='PSI')
+            plt.plot(dates, data['RSI'].values, label='RSI')
         else:
             print("Информация о дате отсутствует или не имеет распознаваемого формата.")
             return

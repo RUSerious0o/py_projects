@@ -10,13 +10,26 @@ def main():
     print("Общие периоды времени для данных о запасах включают: 1д, 5д, 1мес, 3мес, 6мес, 1г, 2г, 5г, 10л, с начала года, макс.")
     print("                                     Соответственно: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max")
 
-    ticker = input("/nВведите тикер акции (например, «AAPL» для Apple Inc):»")
+    ticker = input("\nВведите тикер акции (например, «AAPL» для Apple Inc):»")
 
     invalid_input = True
     while invalid_input:
         input_msg = "Введите период для данных (например, '1mo' для одного месяца) или границы периода (например: 2024-01-01 2024-04-20): "
         user_input = parse_period_input(input(input_msg))
         invalid_input = not user_input['input_is_valid']
+
+    invalid_input = True
+    while invalid_input:
+        input_msg = ("Выберите стиль оформления графика:\n"
+                     "1 - стиль по умолчанию, 2 - график на темном фоне, 3 - с сеткой на сером фоне: ")
+        plot_style = input(input_msg)
+        try:
+            plot_style = int(plot_style) - 1
+            if plot_style in range(3):
+                invalid_input = False
+        except:
+            pass
+
 
     # Fetch stock data
     stock_data = data_download.fetch_stock_data(ticker, user_input['period'], user_input['start'], user_input['end'])
@@ -28,7 +41,7 @@ def main():
     stock_data = data_download.add_rsi(stock_data)
 
     # Plot the data
-    dplt.create_and_save_plot(stock_data, ticker, user_input['period'])
+    dplt.create_and_save_plot(stock_data, ticker, period=user_input['period'], style_num=plot_style)
 
     # View average price
     calculate_and_display_average_price(stock_data)
