@@ -37,6 +37,9 @@ def main():
     # Add moving average to the data
     stock_data = data_download.add_moving_average(stock_data)
 
+    # Add std deviation to the data
+    stock_data = data_download.add_std_deviation(stock_data)
+
     # Add RSI to the data
     stock_data = data_download.add_rsi(stock_data)
 

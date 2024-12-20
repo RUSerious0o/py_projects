@@ -6,12 +6,16 @@ import yfinance as yf
 def fetch_stock_data(ticker, period: str = None, start: str = None, end: str = None):
     stock = yf.Ticker(ticker)
     data = stock.history(period=period, start=start, end=end)
-    # data = stock.history(start='2024-01-24', end='2024-04-24')
     return data
 
 
 def add_moving_average(data, window_size=5):
     data['Moving_Average'] = data['Close'].rolling(window=window_size).mean()
+    return data
+
+
+def add_std_deviation(data: pandas.DataFrame, window_size=5) -> pandas.DataFrame:
+    data['Std_Deviation'] = data['Close'].rolling(window=window_size).std()
     return data
 
 
