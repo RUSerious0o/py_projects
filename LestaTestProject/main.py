@@ -1,5 +1,5 @@
 from is_even import isEven, is_even
-from circular_buffers import CircularBuffer
+from circular_buffers import CircularBuffer, CircularBufferList
 
 print(is_even(2), is_even(3), is_even(36), is_even(35))
 print(isEven(2), isEven(3), isEven(36), isEven(35))
@@ -39,4 +39,27 @@ print(buffer.dequeue(), buffer, '\n')
 for i in range(6, 10):
     buffer.enqueue(i)
 print(sum(buffer))
+
+buffer = CircularBufferList(5)
+for i in range(3, 9):
+    buffer.enqueue(i)
+
+for i in range(4):
+    print(buffer.dequeue())
+print()
+
+print(buffer.peek())
+buffer.enqueue(20)
+buffer.enqueue(3)
+buffer.enqueue(40)
+buffer.enqueue(40)
+try:
+    for i in range(10):
+        print(buffer.dequeue())
+except IndexError:
+    print('Buffer is empty!')
+
+buffer.enqueue(2)
+print(buffer.dequeue())
+
 
