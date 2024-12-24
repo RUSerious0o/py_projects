@@ -1,0 +1,12 @@
+Для сортировки массива произвольных чисел я бы предложил использовать или алгоритм timsort,
+реализованный во встроенной функции Python sorted() и методе .sort(), имеющий асимптотическую сложность O(N)
+для лучшего случая и O(N * log(N)) для среднего и худшего случаев.
+Для массива целых чисел, согласно документации numpy, наиболее оптимальным является алгоритм radix, обеспечивающий
+асимптотическую сложность O(N).
+
+New in version 1.17.0.
+
+Timsort is added for better performance on already or nearly sorted data. On random data timsort is almost identical
+to mergesort. It is now used for stable sort while quicksort is still the default sort if none is chosen. For timsort
+details, refer to CPython listsort.txt. ‘mergesort’ and ‘stable’ are mapped to radix sort for integer data types.
+Radix sort is an O(n) sort instead of O(n log n).

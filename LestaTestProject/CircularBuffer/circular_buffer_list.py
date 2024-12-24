@@ -1,4 +1,4 @@
-class CircularBufferList:
+class CircularBuffer:
     class __Item:
         def __init__(self, content, next_item=None):
             self.__next_item = next_item
@@ -15,8 +15,8 @@ class CircularBufferList:
 
     def __init__(self, size: int):
         self.size: int = size
-        self.head: CircularBufferList.__Item = None
-        self.tail: CircularBufferList.__Item = None
+        self.head: CircularBuffer.__Item = None
+        self.tail: CircularBuffer.__Item = None
         self.items_count: int = 0
 
     def enqueue(self, item):
