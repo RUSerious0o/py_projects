@@ -30,9 +30,18 @@ class CircularBufferTest(unittest.TestCase):
             buffer.enqueue(value)
 
         expected_value = 5
-        for i in range(self.BUFFER_SIZE):
-            self.assertEqual(buffer.dequeue(), expected_value)
+        for i in range(self.BUFFER_SIZE - 1):
+            self.assertEqual(expected_value, buffer.dequeue())
             expected_value += 1
+
+        buffer.enqueue(20)
+        buffer.enqueue(30)
+        self.assertEqual(13, buffer.dequeue())
+        self.assertEqual(20, buffer.dequeue())
+        self.assertEqual(30, buffer.dequeue())
+
+        self.assertRaises(IndexError, buffer.dequeue)
+        self.assertRaises(ValueError, buffer.enqueue, None)
 
         for value in range(self.ITERATIONS):
             if randint(0, 100) < 30:

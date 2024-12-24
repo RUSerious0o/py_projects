@@ -6,6 +6,8 @@ class CircularBuffer:
         self.buffer = deque(maxlen=size)
 
     def enqueue(self, item):
+        if item is None:
+            raise ValueError('Can\'t enqueue \'None\'')
         self.buffer.append(item)
 
     def dequeue(self):

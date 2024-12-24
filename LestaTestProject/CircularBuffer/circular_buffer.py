@@ -5,12 +5,6 @@ class CircularBuffer:
         self.index = 0
         self.items_count = 0
 
-    def __str__(self):
-        return f'{self.buffer}, items: {self.items_count}'
-
-    def __iter__(self):
-        return iter(self.buffer)
-
     def enqueue(self, item) -> None:
         if item is None:
             raise ValueError("Cant't enqueue \"None\"!")
