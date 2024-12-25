@@ -4,9 +4,6 @@ class CircularBuffer:
             self.__next_item = next_item
             self.__content = content
 
-        def __str__(self):
-            return f'Content: {self.__content}, next: {self.__next_item.__class__}'
-
         def content(self):
             return self.__content
 
@@ -31,14 +28,6 @@ class CircularBuffer:
             self.__tail = new_item
         self.__tail.set_next_item(self.__head)
         self.__tail = self.__head
-
-    def __str__(self):
-        result = ''
-        item = self.__head
-        for i in range(self.__size):
-            result += f'{i} {item}\n'
-            item = item.next_item()
-        return result
 
     def enqueue(self, item):
         if item is None:
