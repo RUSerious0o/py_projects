@@ -25,7 +25,8 @@ class CircularBuffer:
         return item
 
     def peek(self):
-        pass
+        item_index = (self.index + self.size - self.items_count) % self.size
+        return self.buffer[item_index]
 
     def is_empty(self):
         return all(x is None for x in self.buffer)

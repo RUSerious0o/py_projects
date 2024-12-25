@@ -34,6 +34,8 @@ class CircularBufferTest(unittest.TestCase):
             self.assertEqual(expected_value, buffer.dequeue())
             expected_value += 1
 
+        self.assertEqual(13, buffer.peek())
+
         buffer.enqueue(20)
         buffer.enqueue(30)
         self.assertEqual(13, buffer.dequeue())
