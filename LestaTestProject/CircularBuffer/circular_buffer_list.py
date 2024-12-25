@@ -20,22 +20,22 @@ class CircularBuffer:
             self.__content = content
 
     def __init__(self, size: int):
-        self.size = size
-        self.head = CircularBuffer.__Item(None, None)
-        self.tail = self.head
-        for i in range(1, self.size):
-            new_item = CircularBuffer.__Item(None, None)
-            self.tail.set_next_item(new_item)
-            self.tail = new_item
-        self.tail.set_next_item(self.head)
-        self.tail = self.head
+        self.__size = size
+        self.__items_count = 0
 
-        self.items_count: int = 0
+        self.__head = CircularBuffer.__Item(None, None)
+        self.__tail = self.__head
+        for i in range(1, self.__size):
+            new_item = CircularBuffer.__Item(None, None)
+            self.__tail.set_next_item(new_item)
+            self.__tail = new_item
+        self.__tail.set_next_item(self.__head)
+        self.__tail = self.__head
 
     def __str__(self):
         result = ''
-        item = self.head
-        for i in range(self.size):
+        item = self.__head
+        for i in range(self.__size):
             result += f'{i} {item}\n'
             item = item.next_item()
         return result
@@ -44,32 +44,32 @@ class CircularBuffer:
         if item is None:
             raise ValueError("Cant't enqueue \"None\"!")
 
-        if self.items_count == self.size:
-            self.head = self.head.next_item()
+        if self.__items_count == self.__size:
+            self.__head = self.__head.next_item()
         else:
-            self.items_count += 1
+            self.__items_count += 1
 
-        self.tail.set_content(item)
-        self.tail = self.tail.next_item()
+        self.__tail.set_content(item)
+        self.__tail = self.__tail.next_item()
 
     def dequeue(self):
-        if self.items_count == 0:
+        if self.__items_count == 0:
             raise IndexError('Buffer is empty!')
 
-        content = self.head.content()
-        self.head.set_content(None)
-        self.head = self.head.next_item()
-        self.items_count -= 1
+        content = self.__head.content()
+        self.__head.set_content(None)
+        self.__head = self.__head.next_item()
+        self.__items_count -= 1
         return content
 
     def peek(self):
-        if self.items_count == 0:
+        if self.__items_count == 0:
             raise IndexError('Buffer is empty!')
 
-        return self.head.content()
+        return self.__head.content()
 
     def is_empty(self):
-        return self.items_count == 0
+        return self.__items_count == 0
 
     def is_full(self):
-        return self.items_count == self.size
+        return self.__items_count == self.__size

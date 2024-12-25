@@ -13,9 +13,9 @@ class CircularBufferTest(unittest.TestCase):
     def setUpClass(cls):
         logging.basicConfig(filename='circular_buffer_tests.log', filemode='w', encoding='utf-8', level=logging.INFO,
                             format='%(asctime)s | %(levelname)s | %(message)s')
-        cls.BUFFER_SIZE = 9
+        cls.BUFFER_SIZE = 7
         cls.DATA = range(2, 14)
-        cls.ITERATIONS = 1_500_000
+        cls.ITERATIONS = 2_500_000
 
     def execution_time_measure(func):
         def wrapper(*args, **kwargs):
@@ -29,11 +29,12 @@ class CircularBufferTest(unittest.TestCase):
         for value in self.DATA:
             buffer.enqueue(value)
 
-        expected_value = 5
+        self.assertEqual(True, buffer.is_full())
+
+        expected_value = max(self.DATA) - self.BUFFER_SIZE + 1
         for i in range(self.BUFFER_SIZE - 1):
             self.assertEqual(expected_value, buffer.dequeue())
             expected_value += 1
-
 
         self.assertEqual(13, buffer.peek())
 
@@ -42,6 +43,8 @@ class CircularBufferTest(unittest.TestCase):
         self.assertEqual(13, buffer.dequeue())
         self.assertEqual(20, buffer.dequeue())
         self.assertEqual(30, buffer.dequeue())
+
+        self.assertEqual(True, buffer.is_empty())
 
         self.assertRaises(IndexError, buffer.dequeue)
         self.assertRaises(ValueError, buffer.enqueue, None)
