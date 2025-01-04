@@ -49,6 +49,9 @@ def main():
     # View average price
     calculate_and_display_average_price(stock_data)
 
+    # View interactive plot
+    dplt.show_interactive_plot(stock_data, ticker)
+
     # Strong fluctuations test
     notify_if_strong_fluctuations(stock_data, 10.5)
     notify_if_strong_fluctuations(stock_data, 3.1)
