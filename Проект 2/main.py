@@ -19,6 +19,7 @@ class DrawingApp:
 
         self.last_x, self.last_y = None, None
         self.pen_color = 'black'
+        self.__saved_pen_color = self.pen_color
 
         self.canvas.bind('<B1-Motion>', self.paint)
         self.canvas.bind('<ButtonRelease-1>', self.reset)
@@ -30,8 +31,14 @@ class DrawingApp:
         clear_button = tk.Button(control_frame, text="Очистить", command=self.clear_canvas)
         clear_button.pack(side=tk.LEFT)
 
+        eraser_button = tk.Button(control_frame, text='Кисть', command=self.activate_pencil)
+        eraser_button.pack(side=tk.LEFT)
+
         color_button = tk.Button(control_frame, text="Выбрать цвет", command=self.choose_color)
         color_button.pack(side=tk.LEFT)
+
+        eraser_button = tk.Button(control_frame, text='Ластик', command=self.activate_eraser)
+        eraser_button.pack(side=tk.LEFT)
 
         save_button = tk.Button(control_frame, text="Сохранить", command=self.save_image)
         save_button.pack(side=tk.LEFT)
@@ -71,6 +78,13 @@ class DrawingApp:
 
     def choose_color(self):
         self.pen_color = colorchooser.askcolor(color=self.pen_color)[1]
+
+    def activate_pencil(self):
+        self.pen_color = self.__saved_pen_color
+
+    def activate_eraser(self):
+        self.__saved_pen_color = self.pen_color
+        self.pen_color = 'white'
 
     def save_image(self):
         file_path = filedialog.asksaveasfilename(filetypes=[('PNG files', '*.png')])
