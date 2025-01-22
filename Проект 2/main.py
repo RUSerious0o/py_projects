@@ -23,6 +23,7 @@ class DrawingApp:
 
         self.canvas.bind('<B1-Motion>', self.paint)
         self.canvas.bind('<ButtonRelease-1>', self.reset)
+        self.canvas.bind('<Button-3>', self.pick_color)
 
     def setup_ui(self):
         control_frame = tk.Frame(self.root)
@@ -53,6 +54,9 @@ class DrawingApp:
 
         brush_size.set(selected_size)
         self.brush_size_scale.set(selected_size)
+
+    def pick_color(self, event):
+        self.pen_color = "#%02x%02x%02x" % self.image.getpixel((event.x, event.y))
 
     def brush_size_selected(self, value):
         self.brush_size_scale.set(value)
