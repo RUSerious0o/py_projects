@@ -25,6 +25,9 @@ class DrawingApp:
         self.canvas.bind('<ButtonRelease-1>', self.reset)
         self.canvas.bind('<Button-3>', self.pick_color)
 
+        self.root.bind('<Control-c>', self.choose_color)
+        self.root.bind('<Control-s>', self.save_image)
+
     def setup_ui(self):
         control_frame = tk.Frame(self.root)
         control_frame.pack(fill=tk.X)
@@ -41,7 +44,7 @@ class DrawingApp:
         eraser_button = tk.Button(control_frame, text='Ластик', command=self.activate_eraser)
         eraser_button.pack(side=tk.LEFT)
 
-        save_button = tk.Button(control_frame, text="Сохранить", command=self.save_image)
+        save_button = tk.Button(control_frame, text="Сохранить", command=lambda: self.save_image(None))
         save_button.pack(side=tk.LEFT)
 
         self.brush_size_scale = tk.Scale(control_frame, from_=1, to=10, orient=tk.HORIZONTAL)
@@ -80,7 +83,7 @@ class DrawingApp:
         self.image = Image.new("RGB", (600, 400), "white")
         self.draw = ImageDraw.Draw(self.image)
 
-    def choose_color(self):
+    def choose_color(self, event):
         self.pen_color = colorchooser.askcolor(color=self.pen_color)[1]
 
     def activate_pencil(self):
@@ -90,7 +93,7 @@ class DrawingApp:
         self.__saved_pen_color = self.pen_color
         self.pen_color = 'white'
 
-    def save_image(self):
+    def save_image(self, event):
         file_path = filedialog.asksaveasfilename(filetypes=[('PNG files', '*.png')])
         if file_path:
             if not file_path.endswith('.png'):
