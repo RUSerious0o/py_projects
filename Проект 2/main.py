@@ -15,11 +15,12 @@ class DrawingApp:
         self.canvas = tk.Canvas(root, width=600, height=400, bg='white')
         self.canvas.pack()
 
+        self.pen_color = 'black'
+        self.__saved_pen_color = self.pen_color
+
         self.setup_ui()
 
         self.last_x, self.last_y = None, None
-        self.pen_color = 'black'
-        self.__saved_pen_color = self.pen_color
 
         self.canvas.bind('<B1-Motion>', self.paint)
         self.canvas.bind('<ButtonRelease-1>', self.reset)
@@ -41,6 +42,9 @@ class DrawingApp:
         color_button = tk.Button(control_frame, text="Выбрать цвет", command=self.choose_color)
         color_button.pack(side=tk.LEFT)
 
+        self.__color_example_label = tk.Label(control_frame, text='    ', background=self.pen_color)
+        self.__color_example_label.pack(side=tk.LEFT)
+
         eraser_button = tk.Button(control_frame, text='Ластик', command=self.activate_eraser)
         eraser_button.pack(side=tk.LEFT)
 
@@ -60,6 +64,7 @@ class DrawingApp:
 
     def pick_color(self, event):
         self.pen_color = "#%02x%02x%02x" % self.image.getpixel((event.x, event.y))
+        self.__color_example_label.configure(background=self.pen_color)
 
     def brush_size_selected(self, value):
         self.brush_size_scale.set(value)
@@ -83,8 +88,9 @@ class DrawingApp:
         self.image = Image.new("RGB", (600, 400), "white")
         self.draw = ImageDraw.Draw(self.image)
 
-    def choose_color(self, event):
+    def choose_color(self, event=None):
         self.pen_color = colorchooser.askcolor(color=self.pen_color)[1]
+        self.__color_example_label.configure(background=self.pen_color)
 
     def activate_pencil(self):
         self.pen_color = self.__saved_pen_color
