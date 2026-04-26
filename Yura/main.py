@@ -85,10 +85,13 @@ def fight_bear():
     bear.hp = 10 * wizard.level
     bear.atk = 3 * wizard.level
     screen.fill((255, 125, 0))
+    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
     screen.blit(bear.image, (bear.rect.x, bear.rect.y))
     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
     screen.blit(txt, (width / 1000, height / 1000))
+    txt_2 = font.render(f'хп медведя = {bear.hp}', True, (255, 255, 255))
+    screen.blit(txt_2, (width / 1.3, height / 500))
     pygame.display.flip()
     run = True
     while run:
@@ -98,6 +101,7 @@ def fight_bear():
                     purple_ball = Purple_ball()
                     purple_ball.update()
                     screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(bear.image, (bear.rect.x, bear.rect.y))
                     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -107,6 +111,7 @@ def fight_bear():
                     red_ball = Red_ball()
                     red_ball.update()
                     screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(bear.image, (bear.rect.x, bear.rect.y))
                     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -132,6 +137,7 @@ def fight_spider():
     spider.hp = 13 * wizard.level
     spider.atk = 4 * wizard.level
     screen.fill((255, 125, 0))
+    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
     screen.blit(spider.image, (spider.rect.x, spider.rect.y))
     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -145,6 +151,7 @@ def fight_spider():
                     purple_ball = Purple_ball()
                     purple_ball.update()
                     screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(spider.image, (spider.rect.x, spider.rect.y))
                     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -154,6 +161,7 @@ def fight_spider():
                     red_ball = Red_ball()
                     red_ball.update()
                     screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(spider.image, (spider.rect.x, spider.rect.y))
                     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -177,6 +185,7 @@ def fight_mantis():
     mantis.rect.x = width / 1.5
     mantis.rect.y = height / 1.3
     screen.fill((255, 125, 0))
+    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
     screen.blit(mantis.image, (mantis.rect.x, mantis.rect.y))
     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -190,6 +199,7 @@ def fight_mantis():
                     purple_ball = Purple_ball()
                     purple_ball.update()
                     screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(mantis.image, (mantis.rect.x, mantis.rect.y))
                     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -199,6 +209,7 @@ def fight_mantis():
                     red_ball = Red_ball()
                     red_ball.update()
                     screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(mantis.image, (mantis.rect.x, mantis.rect.y))
                     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -222,6 +233,7 @@ def fight_wasp():
     wasp.rect.x = width / 1.5
     wasp.rect.y = height / 1.3
     screen.fill((255, 125, 0))
+    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
     screen.blit(wasp.image, (wasp.rect.x, wasp.rect.y))
@@ -234,6 +246,8 @@ def fight_wasp():
                 if event.key == pygame.K_y:
                     purple_ball = Purple_ball()
                     purple_ball.update()
+                    screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(wasp.image, (wasp.rect.x, wasp.rect.y))
                     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -243,6 +257,7 @@ def fight_wasp():
                     red_ball = Red_ball()
                     red_ball.update()
                     screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(wasp.image, (wasp.rect.x, wasp.rect.y))
                     txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
@@ -266,6 +281,7 @@ def fight_cockroach():
     cockroach.rect.x = width / 1.5
     cockroach.rect.y = height / 1.3
     screen.fill((255, 125, 0))
+    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
     screen.blit(cockroach.image, (cockroach.rect.x, cockroach.rect.y))
     pygame.display.flip()
@@ -277,6 +293,7 @@ def fight_cockroach():
                     purple_ball = Purple_ball()
                     purple_ball.update()
                     screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(cockroach.image, (cockroach.rect.x, cockroach.rect.y))
                     pygame.display.flip()
@@ -284,6 +301,7 @@ def fight_cockroach():
                     red_ball = Red_ball()
                     red_ball.update()
                     screen.fill((255, 125, 0))
+                    screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
                     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                     screen.blit(cockroach.image, (cockroach.rect.x, cockroach.rect.y))
                     pygame.display.flip()
@@ -501,6 +519,7 @@ class Purple_ball(pygame.sprite.Sprite):
             self.rect.x += self.speed
             time.sleep(0.01)
             screen.fill((255, 125, 0))
+            screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
             if wizard.counter == 1:
                 screen.blit(self.image, (self.rect.x, self.rect.y))
                 screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
@@ -538,6 +557,7 @@ class Purple_ball(pygame.sprite.Sprite):
         elif wizard.counter == 5:
             cockroach.hp -= 3
         screen.fill((255, 125, 0))
+        screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
         screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
         screen.blit(bear.image, (bear.rect.x, bear.rect.y))
         pygame.display.flip()
@@ -559,6 +579,7 @@ class Red_ball(pygame.sprite.Sprite):
             self.rect.x += self.speed
             time.sleep(0.01)
             screen.fill((255, 125, 0))
+            screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
             if wizard.counter == 1:
                 screen.blit(self.image, (self.rect.x, self.rect.y))
                 screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
@@ -596,6 +617,7 @@ class Red_ball(pygame.sprite.Sprite):
         elif wizard.counter == 5:
             cockroach.hp -= 5 * wizard.red_ball_power
         screen.fill((255, 125, 0))
+        screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
         screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
         screen.blit(bear.image, (bear.rect.x, bear.rect.y))
         wizard.red_ball_power = 1
