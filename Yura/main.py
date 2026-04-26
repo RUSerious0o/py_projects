@@ -325,6 +325,7 @@ def fight_cockroach():
                 run = False
 
     wizard.rect_x = width / 2
+    you_win()
 
 
 start_game()
