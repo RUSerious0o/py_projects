@@ -13,8 +13,10 @@ screen = pygame.display.set_mode((width, height))
 pygame.init()
 font = pygame.font.Font(None, 36)
 
+
 def start_game():
     wizard_animation = [pygame.image.load(f'pixil-frame-0 ({i}).png') for i in range(7, 13)]
+
     class Start(pygame.sprite.Sprite):
         def __init__(self):
             super().__init__()
@@ -22,7 +24,6 @@ def start_game():
             self.rect = self.image.get_rect()
             self.rect.x = width / 2.5
             self.rect.y = height / 3.5
-
 
     class Close(pygame.sprite.Sprite):
         def __init__(self):
@@ -47,11 +48,11 @@ def start_game():
                 elif start.rect.collidepoint(pos):
                     running = False
 
-
         screen.fill((123, 93, 54))
         screen.blit(start.image, (start.rect.x, start.rect.y))
         screen.blit(close.image, (close.rect.x, close.rect.y))
         pygame.display.flip()
+
 
 def you_win():
     win = Win()
@@ -62,6 +63,7 @@ def you_win():
     pygame.quit()
     sys.exit()
 
+
 def you_lose():
     lose = Lose()
     screen.fill((125, 125, 0))
@@ -71,6 +73,7 @@ def you_lose():
     pygame.quit()
     sys.exit()
 
+
 def fight_bear():
     wizard_image_load_6 = pygame.image.load('pixil-frame-0 (7).png')
     wizard.image = pygame.transform.scale(wizard_image_load_6, (200, 400))
@@ -79,8 +82,8 @@ def fight_bear():
     wizard.rect.y = height / 1.55
     bear.rect.x = width / 1.5
     bear.rect.y = height / 1.3
-    bear.hp = 10 * wizard.total
-    bear.atk = 3 * wizard.total
+    bear.hp = 10 * wizard.level
+    bear.atk = 3 * wizard.level
     screen.fill((255, 125, 0))
     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
     screen.blit(bear.image, (bear.rect.x, bear.rect.y))
@@ -117,6 +120,7 @@ def fight_bear():
 
     wizard.rect_x = width / 2
 
+
 def fight_spider():
     wizard_image_load_6 = pygame.image.load('pixil-frame-0 (7).png')
     wizard.image = pygame.transform.scale(wizard_image_load_6, (200, 400))
@@ -125,8 +129,8 @@ def fight_spider():
     wizard.rect.y = height / 1.55
     spider.rect.x = width / 1.5
     spider.rect.y = height / 1.3
-    spider.hp = 13 * wizard.total
-    spider.atk = 4 * wizard.total
+    spider.hp = 13 * wizard.level
+    spider.atk = 4 * wizard.level
     screen.fill((255, 125, 0))
     screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
     screen.blit(spider.image, (spider.rect.x, spider.rect.y))
@@ -162,6 +166,7 @@ def fight_spider():
                 run = False
 
     wizard.rect_x = width / 2
+
 
 def fight_mantis():
     wizard_image_load_6 = pygame.image.load('pixil-frame-0 (7).png')
@@ -207,6 +212,7 @@ def fight_mantis():
 
     wizard.rect_x = width / 2
 
+
 def fight_wasp():
     wizard_image_load_6 = pygame.image.load('pixil-frame-0 (7).png')
     wizard.image = pygame.transform.scale(wizard_image_load_6, (200, 400))
@@ -250,6 +256,7 @@ def fight_wasp():
 
     wizard.rect_x = width / 2
 
+
 def fight_cockroach():
     wizard_image_load_6 = pygame.image.load('pixil-frame-0 (7).png')
     wizard.image = pygame.transform.scale(wizard_image_load_6, (200, 400))
@@ -288,21 +295,25 @@ def fight_cockroach():
 
     wizard.rect_x = width / 2
 
+
 start_game()
+
 
 class Shadow_fight(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.image.load('pixil-frame-0 (4).png')
-        self.rect =  self.image.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.x = width / 4
         self.rect.y = height / 20
+
 
 shadow_fight = Shadow_fight()
 screen.fill((0, 100, 255))
 screen.blit(shadow_fight.image, (shadow_fight.rect.x, shadow_fight.rect.y))
 pygame.display.flip()
 sleep(3)
+
 
 class Wizard(pygame.sprite.Sprite):
     def __init__(self):
@@ -315,7 +326,7 @@ class Wizard(pygame.sprite.Sprite):
         self.rect.x = width / 2
         self.rect.y = height / 1.55
         self.counter = 1
-        self.total = 1
+        self.level = 1
         self.hp = 100
         self.atk_left = 5
         self.atk_right = 3
@@ -326,7 +337,7 @@ class Wizard(pygame.sprite.Sprite):
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
-            if self.total == 6:
+            if self.level == 6:
                 you_win()
             elif self.counter == 1:
                 bear.update()
@@ -351,17 +362,21 @@ class Wizard(pygame.sprite.Sprite):
             self.rect.y = height / 1.55
 
 
-class Bear(pygame.sprite.Sprite):
-    def __init__(self):
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, base_hp: int = 10):
         super().__init__()
+        self.hp = base_hp * wizard.level
+
+
+class Bear(Enemy):
+    def __init__(self, base_hp: int = 10):
+        super().__init__(base_hp)
         self.image_load = pygame.image.load('pixil-frame-0 (29).png')
-        self.image = pygame.transform.scale(self.image_load, (600 + wizard.total * 50, 300 + wizard.total * 25))
+        self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
         self.rect = self.image.get_rect()
         self.rect.x = width / 1.2
         self.rect.y = height / 1.3
-        self.hp = 10 * wizard.total
-        self.atk = 3 * wizard.total
-
+        self.atk = 3 * wizard.level
 
     def update(self):
         self.rect.x -= wizard.speed
@@ -369,16 +384,15 @@ class Bear(pygame.sprite.Sprite):
             fight_bear()
 
 
-class Spider(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
+class Spider(Enemy):
+    def __init__(self, base_hp: int = 13):
+        super().__init__(base_hp)
         self.image_load = pygame.image.load('pixil-frame-0 (33).png')
-        self.image = pygame.transform.scale(self.image_load, (600 + wizard.total * 50, 300 + wizard.total * 25))
+        self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
         self.rect = self.image.get_rect()
         self.rect.x = width / 1.2
         self.rect.y = height / 1.3
-        self.hp = 13 * wizard.total
-        self.atk = 4 * wizard.total
+        self.atk = 4 * wizard.level
 
     def update(self):
         self.rect.x -= wizard.speed
@@ -386,53 +400,53 @@ class Spider(pygame.sprite.Sprite):
             fight_spider()
 
 
-class Mantis(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
+class Mantis(Enemy):
+    def __init__(self, base_hp: int = 38):
+        super().__init__(base_hp)
         self.image_load = pygame.image.load('pixil-frame-0 (34).png')
-        self.image = pygame.transform.scale(self.image_load, (600 + wizard.total * 50, 300 + wizard.total * 25))
+        self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
         self.rect = self.image.get_rect()
         self.rect.x = width / 1.2
         self.rect.y = height / 1.3
-        self.hp = 38 * wizard.total
-        self.atk = 1 * wizard.total
+        self.atk = 1 * wizard.level
 
     def update(self):
         self.rect.x -= wizard.speed
         if self.rect.x <= width / 1.8:
             fight_mantis()
 
-class Wasp(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
+
+class Wasp(Enemy):
+    def __init__(self, base_hp: int = 8):
+        super().__init__(base_hp)
         self.image_load = pygame.image.load('pixil-frame-0 (35).png')
-        self.image = pygame.transform.scale(self.image_load, (600 + wizard.total * 50, 300 + wizard.total * 25))
+        self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
         self.rect = self.image.get_rect()
         self.rect.x = width / 1.2
         self.rect.y = height / 2.2
-        self.hp = 8 * wizard.total
-        self.atk = 5 * wizard.total
+        self.atk = 5 * wizard.level
 
     def update(self):
         self.rect.x -= wizard.speed
         if self.rect.x <= width / 1.8:
             fight_wasp()
 
-class Cockroach(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
+
+class Cockroach(Enemy):
+    def __init__(self, base_hp: int = 20):
+        super().__init__(base_hp)
         self.image_load = pygame.image.load('pixil-frame-0 (36).png')
-        self.image = pygame.transform.scale(self.image_load, (600 + wizard.total * 50, 300 + wizard.total * 25))
+        self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
         self.rect = self.image.get_rect()
         self.rect.x = width / 1.2
         self.rect.y = height / 1.3888888
-        self.hp = 20 * wizard.total
-        self.atk = 3 * wizard.total
+        self.atk = 3 * wizard.level
 
     def update(self):
         self.rect.x -= wizard.speed
         if self.rect.x <= width / 1.8:
             fight_cockroach()
+
 
 class Win(pygame.sprite.Sprite):
     def __init__(self):
@@ -442,6 +456,7 @@ class Win(pygame.sprite.Sprite):
         self.rect.x = width / 2
         self.rect.y = height / 2
 
+
 class Lose(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -450,8 +465,8 @@ class Lose(pygame.sprite.Sprite):
         self.rect.x = width / 2
         self.rect.y = height / 2
 
-wizard = Wizard()
 
+wizard = Wizard()
 
 
 class Go_work_desk(pygame.sprite.Sprite):
@@ -470,6 +485,7 @@ class Back(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = width / 10
         self.rect.y = height / 2
+
 
 class Purple_ball(pygame.sprite.Sprite):
     def __init__(self):
@@ -527,6 +543,7 @@ class Purple_ball(pygame.sprite.Sprite):
         pygame.display.flip()
         wizard.red_ball_power += 1
         # screen.blit(txt, (width / 1000, height / 1000))
+
 
 class Red_ball(pygame.sprite.Sprite):
     def __init__(self):
@@ -608,7 +625,7 @@ while True:
                 pygame.quit()
                 sys.exit()
             elif back.rect.collidepoint(pos):
-                screen.fill((234, 132,  95))
+                screen.fill((234, 132, 95))
         pygame.display.flip()
         if event.type != pygame.KEYDOWN and event.type != pygame.MOUSEMOTION:
             wizard.update()
