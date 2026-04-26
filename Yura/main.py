@@ -12,6 +12,7 @@ height = 1100
 screen = pygame.display.set_mode((width, height))
 pygame.init()
 font = pygame.font.Font(None, 36)
+
 def start_game():
     wizard_animation = [pygame.image.load(f'pixil-frame-0 ({i}).png') for i in range(7, 13)]
     class Start(pygame.sprite.Sprite):
@@ -319,7 +320,8 @@ class Wizard(pygame.sprite.Sprite):
         self.atk_left = 5
         self.atk_right = 3
         self.red_ball_power = 1
-        self.speed = 5
+        self.txt = font.render(f'хп игрока = {self.hp}', True, (255, 255, 255))
+        self.speed = 15
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -362,7 +364,7 @@ class Bear(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.rect.x -= 5
+        self.rect.x -= wizard.speed
         if self.rect.x <= width / 1.8:
             fight_bear()
 
@@ -379,7 +381,7 @@ class Spider(pygame.sprite.Sprite):
         self.atk = 4 * wizard.total
 
     def update(self):
-        self.rect.x -= 5
+        self.rect.x -= wizard.speed
         if self.rect.x <= width / 1.8:
             fight_spider()
 
@@ -396,7 +398,7 @@ class Mantis(pygame.sprite.Sprite):
         self.atk = 1 * wizard.total
 
     def update(self):
-        self.rect.x -= 5
+        self.rect.x -= wizard.speed
         if self.rect.x <= width / 1.8:
             fight_mantis()
 
@@ -412,7 +414,7 @@ class Wasp(pygame.sprite.Sprite):
         self.atk = 5 * wizard.total
 
     def update(self):
-        self.rect.x -= 5
+        self.rect.x -= wizard.speed
         if self.rect.x <= width / 1.8:
             fight_wasp()
 
@@ -428,7 +430,7 @@ class Cockroach(pygame.sprite.Sprite):
         self.atk = 3 * wizard.total
 
     def update(self):
-        self.rect.x -= 5
+        self.rect.x -= wizard.speed
         if self.rect.x <= width / 1.8:
             fight_cockroach()
 
@@ -476,10 +478,10 @@ class Purple_ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = width / 2.5
         self.rect.y = height / 1.3
-        self.speed = 5
+        self.speed = 30
 
     def update(self):
-        for i in range(120):
+        for i in range(20):
             self.rect.x += self.speed
             time.sleep(0.01)
             screen.fill((255, 125, 0))
@@ -508,7 +510,7 @@ class Purple_ball(pygame.sprite.Sprite):
                 screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                 screen.blit(cockroach.image, (cockroach.rect.x, cockroach.rect.y))
                 pygame.display.flip()
-            screen.blit(txt, (width / 1000, height / 1000))
+            # screen.blit(txt, (width / 1000, height / 1000))
         if wizard.counter == 1:
             bear.hp -= 3
         elif wizard.counter == 2:
@@ -524,7 +526,7 @@ class Purple_ball(pygame.sprite.Sprite):
         screen.blit(bear.image, (bear.rect.x, bear.rect.y))
         pygame.display.flip()
         wizard.red_ball_power += 1
-        screen.blit(txt, (width / 1000, height / 1000))
+        # screen.blit(txt, (width / 1000, height / 1000))
 
 class Red_ball(pygame.sprite.Sprite):
     def __init__(self):
@@ -533,10 +535,10 @@ class Red_ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = width / 2.5
         self.rect.y = height / 1.3
-        self.speed = 5
+        self.speed = 30
 
     def update(self):
-        for i in range(120):
+        for i in range(20):
             self.rect.x += self.speed
             time.sleep(0.01)
             screen.fill((255, 125, 0))
@@ -544,7 +546,6 @@ class Red_ball(pygame.sprite.Sprite):
                 screen.blit(self.image, (self.rect.x, self.rect.y))
                 screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                 screen.blit(bear.image, (bear.rect.x, bear.rect.y))
-                screen.blit()
                 pygame.display.flip()
             if wizard.counter == 2:
                 screen.blit(self.image, (self.rect.x, self.rect.y))
@@ -566,8 +567,7 @@ class Red_ball(pygame.sprite.Sprite):
                 screen.blit(wizard.image, (wizard.rect.x, wizard.rect.y))
                 screen.blit(cockroach.image, (cockroach.rect.x, cockroach.rect.y))
                 pygame.display.flip()
-            txt = font.render(f'хп игрока = {wizard.hp}', True, (255, 255, 255))
-            screen.blit(txt, (width / 1000, height / 1000))
+            screen.blit(wizard.txt, (width / 1000, height / 1000))
         if wizard.counter == 1:
             bear.hp -= 5 * wizard.red_ball_power
         elif wizard.counter == 2:
