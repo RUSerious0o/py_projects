@@ -167,8 +167,6 @@ class Enemy(pygame.sprite.Sprite):
         wizard.rect.y = height / 1.55
         self.rect.x = width / 1.5
         self.rect.y = height / 1.3
-        # spider.hp = 13 * wizard.level
-        # spider.atk = 4 * wizard.level
         screen.fill((255, 125, 0))
         screen.blit(font.render('BATTLE!', True, (200, 255, 255)), (width / 2, height / 2))
         self.blit_hp(screen, font)
@@ -395,6 +393,7 @@ class Red_ball(pygame.sprite.Sprite):
 go_work_desk = Go_work_desk()
 back = Back()
 bear = Bear()
+new_bear = Bear(6, 30)
 spider = Spider()
 mantis = Mantis()
 wasp = Wasp()
