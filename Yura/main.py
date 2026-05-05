@@ -7,6 +7,8 @@ from time import sleep
 
 from pygame.transform import scale
 
+from battle_scene import BattleScene
+
 width = 2000
 height = 1100
 screen = pygame.display.set_mode((width, height))
