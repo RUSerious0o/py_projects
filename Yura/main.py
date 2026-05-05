@@ -395,22 +395,23 @@ class Wizard(pygame.sprite.Sprite):
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, base_hp: int = 10):
+    def __init__(self, image_name: str, atk_value: int, base_hp: int = 10):
         super().__init__()
         self.hp = base_hp * wizard.level
-
-    def blit_hp(self, surface: pygame.Surface, m_font: pygame.font.Font):
-        surface.blit(m_font.render(f'ХП = {self.hp}', True, (255, 255, 255)), (width / 2, height / 200))
-
-class Bear(Enemy):
-    def __init__(self, base_hp: int = 10):
-        super().__init__(base_hp)
-        self.image_load = pygame.image.load('pixil-frame-0 (29).png')
+        self.image_load = pygame.image.load(image_name)
         self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
         self.rect = self.image.get_rect()
         self.rect.x = width / 1.2
         self.rect.y = height / 1.3
-        self.atk = 3 * wizard.level
+        self.atk = atk_value * wizard.level
+
+    def blit_hp(self, surface: pygame.Surface, m_font: pygame.font.Font):
+        surface.blit(m_font.render(f'ХП = {self.hp}', True, (255, 255, 255)), (width / 2, height / 200))
+
+
+class Bear(Enemy):
+    def __init__(self, atk_value: int = 3, base_hp: int = 10):
+        super().__init__('pixil-frame-0 (29).png', atk_value, base_hp)
 
     def update(self):
         self.rect.x -= wizard.speed
@@ -419,14 +420,8 @@ class Bear(Enemy):
 
 
 class Spider(Enemy):
-    def __init__(self, base_hp: int = 13):
-        super().__init__(base_hp)
-        self.image_load = pygame.image.load('pixil-frame-0 (33).png')
-        self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
-        self.rect = self.image.get_rect()
-        self.rect.x = width / 1.2
-        self.rect.y = height / 1.3
-        self.atk = 4 * wizard.level
+    def __init__(self, atk_value: int = 4, base_hp: int = 13):
+        super().__init__('pixil-frame-0 (33).png', atk_value, base_hp)
 
     def update(self):
         self.rect.x -= wizard.speed
@@ -435,14 +430,8 @@ class Spider(Enemy):
 
 
 class Mantis(Enemy):
-    def __init__(self, base_hp: int = 38):
-        super().__init__(base_hp)
-        self.image_load = pygame.image.load('pixil-frame-0 (34).png')
-        self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
-        self.rect = self.image.get_rect()
-        self.rect.x = width / 1.2
-        self.rect.y = height / 1.3
-        self.atk = 1 * wizard.level
+    def __init__(self, atk_value: int = 1, base_hp: int = 38):
+        super().__init__('pixil-frame-0 (34).png', atk_value, base_hp)
 
     def update(self):
         self.rect.x -= wizard.speed
@@ -451,14 +440,8 @@ class Mantis(Enemy):
 
 
 class Wasp(Enemy):
-    def __init__(self, base_hp: int = 8):
-        super().__init__(base_hp)
-        self.image_load = pygame.image.load('pixil-frame-0 (35).png')
-        self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
-        self.rect = self.image.get_rect()
-        self.rect.x = width / 1.2
-        self.rect.y = height / 2.2
-        self.atk = 5 * wizard.level
+    def __init__(self, atk_value: int = 5, base_hp: int = 8):
+        super().__init__('pixil-frame-0 (35).png', atk_value, base_hp)
 
     def update(self):
         self.rect.x -= wizard.speed
@@ -467,14 +450,8 @@ class Wasp(Enemy):
 
 
 class Cockroach(Enemy):
-    def __init__(self, base_hp: int = 20):
-        super().__init__(base_hp)
-        self.image_load = pygame.image.load('pixil-frame-0 (36).png')
-        self.image = pygame.transform.scale(self.image_load, (600 + wizard.level * 50, 300 + wizard.level * 25))
-        self.rect = self.image.get_rect()
-        self.rect.x = width / 1.2
-        self.rect.y = height / 1.3888888
-        self.atk = 3 * wizard.level
+    def __init__(self, atk_value: int = 3, base_hp: int = 20):
+        super().__init__('pixil-frame-0 (35).png', atk_value, base_hp)
 
     def update(self):
         self.rect.x -= wizard.speed
