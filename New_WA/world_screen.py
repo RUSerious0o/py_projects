@@ -1,0 +1,18 @@
+import pygame
+from pygame.sprite import Sprite
+
+
+class WorldScreen(Sprite):
+    def __init__(self, screen: pygame.Surface, sprites: list = [], bg_color: tuple = (6, 185, 30)):
+        super().__init__()
+        self.screen = screen
+        self.bg_color = bg_color
+        self.sprites = sprites
+
+    def update(self):
+        self.screen.fill(self.bg_color)
+
+        for sprite in self.sprites:
+            self.screen.blit(sprite.image, sprite.dest)
+
+        pygame.display.flip()
