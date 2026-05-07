@@ -141,6 +141,9 @@ class Wizard(pygame.sprite.Sprite):
             self.rect.x = width / 2
             self.rect.y = height / 1.55
 
+    def blit_hp(self, screen: pygame.Surface, m_font: pygame.font.Font):
+        screen.blit(m_font.render(f'ХП = {self.hp}', True, (255, 255, 255)), (width / 100, height / 15))
+
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, image_name: str, atk_value: int, base_hp: int = 10):
@@ -153,10 +156,13 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = height / 1.3
         self.atk = atk_value * wizard.level
 
+        self.battle_scene = BattleScene(screen, font, wizard, self)
+
     def update(self):
         self.rect.x -= wizard.speed
         if self.rect.x <= width / 1.8:
-            self.fight()
+            self.battle_scene.update()
+            # self.fight()
 
     def blit_hp(self, surface: pygame.Surface, m_font: pygame.font.Font):
         surface.blit(m_font.render(f'ХП = {self.hp}', True, (255, 255, 255)), (width / 2, height / 200))
@@ -392,6 +398,7 @@ class Red_ball(pygame.sprite.Sprite):
         screen.blit(txt, (width / 1000, height / 1000))
 
 
+# battle_scene = BattleScene(screen, font, wizard)
 go_work_desk = Go_work_desk()
 back = Back()
 bear = Bear()

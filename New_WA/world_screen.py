@@ -16,3 +16,6 @@ class WorldScreen(Sprite):
             self.screen.blit(sprite.image, sprite.dest)
 
         pygame.display.flip()
+
+    def add_sprite(self, sprite: Sprite):
+        self.sprites.append(sprite)
