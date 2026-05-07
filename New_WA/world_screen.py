@@ -17,5 +17,7 @@ class WorldScreen(Sprite):
 
         pygame.display.flip()
 
-    def add_sprite(self, sprite: Sprite):
+    def add_sprite(self, sprite: Sprite, dest: tuple = (0, 0), m_scale: tuple = (200, 400)):
+        sprite.dest = dest
+        sprite.image = pygame.transform.scale(sprite.image, m_scale)
         self.sprites.append(sprite)
