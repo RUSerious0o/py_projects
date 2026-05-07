@@ -17,11 +17,11 @@ class Wizard(Sprite):
     def move(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
-            self.dest = (self.dest[0] + Wizard.move_speed, self.dest[1])
+            self.rect.x += Wizard.move_speed
         if keys[pygame.K_a]:
-            self.dest = (self.dest[0] - Wizard.move_speed, self.dest[1])
+            self.rect.x -= Wizard.move_speed
         if keys[pygame.K_s]:
-            self.dest = (self.dest[0], self.dest[1] + Wizard.move_speed)
+            self.rect.y += Wizard.move_speed
         if keys[pygame.K_w]:
-            self.dest = (self.dest[0], self.dest[1] - Wizard.move_speed)
+            self.rect.y -= Wizard.move_speed
 
