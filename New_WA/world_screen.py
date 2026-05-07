@@ -13,6 +13,7 @@ class WorldScreen(Sprite):
         self.screen.fill(self.bg_color)
 
         for sprite in self.sprites:
+            sprite.update()
             self.screen.blit(sprite.image, sprite.dest)
 
         pygame.display.flip()

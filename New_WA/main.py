@@ -13,11 +13,12 @@ wizard = Wizard()
 if __name__ == '__main__':
     pygame.init()
 
+    world_screen.add_sprite(wizard)
+
     run = True
     while run:
         clock.tick(fps)
 
-        world_screen.add_sprite(wizard)
         world_screen.update()
 
         for event in pygame.event.get():
