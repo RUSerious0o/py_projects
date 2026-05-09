@@ -18,6 +18,7 @@ if __name__ == '__main__':
     world_screen.add_player(wizard)
     world_screen.add_sprite(wizard)
     world_screen.add_sprite(bear, dest=(300, 300), m_scale=(300, 200))
+    world_screen.add_sprite(Spider(), dest=(600, 300), m_scale=(300, 200))
 
     run = True
     while run:
