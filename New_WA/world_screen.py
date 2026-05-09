@@ -13,6 +13,8 @@ class WorldScreen(Sprite):
 
         self.current_enemy = None
         self.player = None
+        self.font_color = (255, 255, 98)
+        self.font = pygame.font.Font(None, 36)
 
     def update(self):
         if not WorldScreen.is_battle_scene:
@@ -20,6 +22,8 @@ class WorldScreen(Sprite):
         else:
             self.draw_battle_scene()
 
+    def add_player(self, player: Sprite):
+        self.player = player
 
     def add_sprite(self, sprite: Sprite, dest: tuple = (0, 0), m_scale: tuple = (200, 400)):
         sprite.image = pygame.transform.scale(sprite.image, m_scale)
@@ -37,11 +41,8 @@ class WorldScreen(Sprite):
             self.screen.blit(sprite.image, (sprite.rect.x, sprite.rect.y))
 
         if len(self.sprites) > 0:
-            player = self.sprites[0]
-            self.player = player
             for sprite in self.sprites[1:]:
-                if player.rect.colliderect(sprite.rect):
-                    # print(f'Collision {player.rect} {sprite.rect} {player.rect.colliderect(sprite.rect)}')
+                if self.player.rect.colliderect(sprite.rect):
                     self.current_enemy = sprite
                     WorldScreen.is_battle_scene = True
 
@@ -50,12 +51,29 @@ class WorldScreen(Sprite):
     def draw_battle_scene(self):
         player = self.player
         bg_color = (255, 125, 0)
-        player_dest = (self.screen.get_width() / 4 - player.rect.width / 2, self.screen.get_height() / 2 - player.rect.height / 2)
-        enemy_dest = (self.screen.get_width() / 4 * 3 - self.current_enemy.rect.width / 2, self.screen.get_height() / 2 - self.current_enemy.rect.height / 2)
+        player_dest = (self.screen.get_width() / 4 - player.rect.width / 2,
+                       self.screen.get_height() / 2 - player.rect.height / 2)
+        enemy_dest = (self.screen.get_width() / 4 * 3 - self.current_enemy.rect.width / 2,
+                      self.screen.get_height() / 2 - self.current_enemy.rect.height / 2)
 
         self.screen.fill(bg_color)
 
         self.screen.blit(player.image, player_dest)
         self.screen.blit(self.current_enemy.image, enemy_dest)
+        self.blit_battle_txt()
 
         pygame.display.flip()
+
+    def blit_battle_txt(self):
+        self.screen.blit(
+            self.font.render(f'Хп игрока = {self.player.hp}', True, self.font_color),
+            (self.screen.get_width() / 20, self.screen.get_height() / 20)
+        )
+        self.screen.blit(
+            self.font.render(f'Хп врага = {self.current_enemy.hp}', True, self.font_color),
+            (self.screen.get_width() * 0.8, self.screen.get_height() / 20)
+        )
+        self.screen.blit(
+            self.font.render('БИТВА!', True, self.font_color),
+            (self.screen.get_width() * 0.5, self.screen.get_height() * 0.3)
+        )

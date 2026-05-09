@@ -4,6 +4,8 @@ from world_screen import WorldScreen
 from wizard import Wizard
 from enemies import *
 
+pygame.init()
+
 screen = pygame.display.set_mode((1200, 800))
 clock = pygame.time.Clock()
 fps = 60
@@ -13,8 +15,7 @@ wizard = Wizard()
 bear = Bear()
 
 if __name__ == '__main__':
-    pygame.init()
-
+    world_screen.add_player(wizard)
     world_screen.add_sprite(wizard)
     world_screen.add_sprite(bear, dest=(300, 300), m_scale=(300, 200))
 
