@@ -8,7 +8,10 @@ class Wizard(Sprite):
 
     def __init__(self, hp: int = 100):
         super().__init__()
-        self.image = pygame.image.load(Wizard.main_image_path)
+        self.image_world = pygame.transform.scale(pygame.image.load(Wizard.main_image_path), (66, 133))
+        self.image_battle = pygame.transform.scale(pygame.image.load(Wizard.main_image_path), (200, 400))
+
+        self.image = self.image_world
         self.rect = self.image.get_rect()
         self.hp = hp
 

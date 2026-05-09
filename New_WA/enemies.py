@@ -16,7 +16,9 @@ class Enemy(Sprite):
     def __init__(self, hp: int = __DEFAULT_HP, damage: int = __DEFAULT_DAMAGE):
         super().__init__()
         self.dest = (0, 0)
-        self.image = pygame.image.load(self.main_image_path)
+        self.image_world = pygame.transform.scale(pygame.image.load(self.main_image_path), (100, 66))
+        self.image_battle = pygame.transform.scale(pygame.image.load(self.main_image_path), (300, 200))
+        self.image = self.image_world
         self.rect = self.image.get_rect()
         self.hp = hp if hp != Enemy.__DEFAULT_HP else self.hp
         self.damage = damage if damage != Enemy.__DEFAULT_DAMAGE else self.damage

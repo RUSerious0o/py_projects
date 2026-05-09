@@ -137,12 +137,13 @@ class WorldScreen(Sprite):
 
     def init_battle_scene(self, sprite: Sprite):
         self.current_enemy = sprite
-        self.current_enemy.image = pygame.transform.smoothscale_by(self.current_enemy.image, factor=3.0)
+        self.current_enemy.image = self.current_enemy.image_battle
         self.current_enemy.rect = self.current_enemy.image.get_rect()
         self.current_enemy.rect.x, self.current_enemy.rect.y = self.enemy_battle_screen_position
 
         self.player_world_screen_position = (self.player.rect.x, self.player.rect.y)
-        self.player.image = pygame.transform.smoothscale_by(self.player.image, factor=3.0)
+        # self.player.image = pygame.transform.smoothscale_by(self.player.image, factor=3.0)
+        self.player.image = self.player.image_battle
         self.player.rect = self.player.image.get_rect()
 
         WorldScreen.is_battle_scene = True
@@ -153,6 +154,6 @@ class WorldScreen(Sprite):
         self.current_enemy = None
         self.is_player_turn = True
 
-        self.player.image = pygame.transform.smoothscale_by(self.player.image, 0.33)
+        self.player.image = self.player.image_world
         self.player.rect = self.player.image.get_rect()
         self.player.rect.x, self.player.rect.y = self.player_world_screen_position
