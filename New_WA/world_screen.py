@@ -26,11 +26,18 @@ class WorldScreen(Sprite):
         else:
             self.draw_battle_scene()
             if self.is_player_turn:
+                if self.ball:
+                    return
+
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_SPACE and not self.ball:
+                        if event.key == pygame.K_SPACE:
                             self.ball = PurpleBall()
                             self.ball.rect.x = self.screen.get_width() * 0.3
+                            self.ball.rect.y = self.screen.get_height() * 0.5
+                        if event.key == pygame.K_z:
+                            self.ball = RedBall()
+                            self.ball.rect.x = self.screen.get_width() * 0.2
                             self.ball.rect.y = self.screen.get_height() * 0.5
 
     def add_player(self, player: Sprite):
@@ -79,6 +86,8 @@ class WorldScreen(Sprite):
             self.ball.rect.x += self.ball.speed
             if self.ball.rect.colliderect(self.current_enemy.rect):
                 self.current_enemy.hp -= self.ball.damage
+                if isinstance(self.ball, RedBall):
+                    PurpleBall.reset_mult()
                 self.ball = None
 
         pygame.display.flip()
