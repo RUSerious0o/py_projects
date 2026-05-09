@@ -116,12 +116,7 @@ class WorldScreen(Sprite):
         pygame.display.flip()
 
         if self.current_enemy.hp <= 0:
-            WorldScreen.is_battle_scene = False
-            self.sprites.remove(self.current_enemy)
-            self.current_enemy = None
-            self.is_player_turn = True
-            self.player.rect.x, self.player.rect.y = self.player_world_screen_position
-
+            self.finish_battle()
     def blit_battle_txt(self):
         self.screen.blit(
             self.font.render(f'Хп игрока = {self.player.hp}', True, self.font_color),
@@ -153,4 +148,11 @@ class WorldScreen(Sprite):
         WorldScreen.is_battle_scene = True
 
     def finish_battle(self):
-        pass
+        WorldScreen.is_battle_scene = False
+        self.sprites.remove(self.current_enemy)
+        self.current_enemy = None
+        self.is_player_turn = True
+
+        self.player.image = pygame.transform.smoothscale_by(self.player.image, 0.33)
+        self.player.rect = self.player.image.get_rect()
+        self.player.rect.x, self.player.rect.y = self.player_world_screen_position
