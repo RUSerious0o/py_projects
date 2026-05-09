@@ -1,7 +1,9 @@
 import pygame
+import sys
 from pygame.sprite import Sprite
 
 from ball import *
+from enemies import *
 
 
 class WorldScreen(Sprite):
@@ -13,12 +15,18 @@ class WorldScreen(Sprite):
         self.bg_color = bg_color
         self.sprites = sprites
 
-        self.current_enemy = None
+        self.current_enemy: Enemy = None
         self.player = None
         self.ball = None
         self.is_player_turn = True
         self.font_color = (255, 255, 98)
         self.font = pygame.font.Font(None, 36)
+        self.enemy_battle_screen_position = (self.screen.get_width() / 4 * 3 - 150,
+                                             self.screen.get_height() / 2 - 100)
+        self.player_battle_screen_position = (self.screen.get_width() / 4 - 100,
+                                              self.screen.get_height() / 2 - 200)
+        self.player_world_screen_position = None
+
 
     def update(self):
         if not WorldScreen.is_battle_scene:
@@ -39,6 +47,21 @@ class WorldScreen(Sprite):
                             self.ball = RedBall()
                             self.ball.rect.x = self.screen.get_width() * 0.2
                             self.ball.rect.y = self.screen.get_height() * 0.5
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+            else:
+                self.current_enemy.update()
+
+                if self.current_enemy.rect.colliderect(self.player.rect):
+                    self.player.hp -= self.current_enemy.damage
+                    self.current_enemy.is_attacking = False
+                    self.current_enemy.is_returning = True
+
+                if self.current_enemy.rect.x >= self.enemy_battle_screen_position[0]:
+                    self.current_enemy.rect.x = self.enemy_battle_screen_position[0]
+                    self.current_enemy.is_returning = False
+                    self.is_player_turn = True
 
     def add_player(self, player: Sprite):
         self.player = player
@@ -62,6 +85,8 @@ class WorldScreen(Sprite):
             for sprite in self.sprites[1:]:
                 if self.player.rect.colliderect(sprite.rect):
                     self.current_enemy = sprite
+                    self.current_enemy.rect.x, self.current_enemy.rect.y = self.enemy_battle_screen_position
+                    self.player_world_screen_position = (self.player.rect.x, self.player.rect.y)
                     WorldScreen.is_battle_scene = True
 
         pygame.display.flip()
@@ -69,10 +94,9 @@ class WorldScreen(Sprite):
     def draw_battle_scene(self):
         player = self.player
         bg_color = (255, 125, 0)
-        player_dest = (self.screen.get_width() / 4 - player.rect.width / 2,
-                       self.screen.get_height() / 2 - player.rect.height / 2)
-        enemy_dest = (self.screen.get_width() / 4 * 3 - self.current_enemy.rect.width / 2,
-                      self.screen.get_height() / 2 - self.current_enemy.rect.height / 2)
+        player_dest = self.player_battle_screen_position
+        player.rect.x, player.rect.y = self.player_battle_screen_position
+        enemy_dest = self.current_enemy.rect.x, self.current_enemy.rect.y
 
         self.screen.fill(bg_color)
 
@@ -89,6 +113,8 @@ class WorldScreen(Sprite):
                 if isinstance(self.ball, RedBall):
                     PurpleBall.reset_mult()
                 self.ball = None
+                self.is_player_turn = False
+                self.current_enemy.is_attacking = True
 
         pygame.display.flip()
 
@@ -96,6 +122,8 @@ class WorldScreen(Sprite):
             WorldScreen.is_battle_scene = False
             self.sprites.remove(self.current_enemy)
             self.current_enemy = None
+            self.is_player_turn = True
+            self.player.rect.x, self.player.rect.y = self.player_world_screen_position
 
     def blit_battle_txt(self):
         self.screen.blit(
