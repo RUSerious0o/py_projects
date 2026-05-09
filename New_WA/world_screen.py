@@ -84,10 +84,7 @@ class WorldScreen(Sprite):
         if len(self.sprites) > 0:
             for sprite in self.sprites[1:]:
                 if self.player.rect.colliderect(sprite.rect):
-                    self.current_enemy = sprite
-                    self.current_enemy.rect.x, self.current_enemy.rect.y = self.enemy_battle_screen_position
-                    self.player_world_screen_position = (self.player.rect.x, self.player.rect.y)
-                    WorldScreen.is_battle_scene = True
+                    self.init_battle_scene(sprite)
 
         pygame.display.flip()
 
@@ -142,3 +139,18 @@ class WorldScreen(Sprite):
             self.font.render(f'Текущий множитель = {PurpleBall.damage_mult}', True, self.font_color),
                  (self.screen.get_width() / 20, self.screen.get_height() / 20 + 50)
         )
+
+    def init_battle_scene(self, sprite: Sprite):
+        self.current_enemy = sprite
+        self.current_enemy.image = pygame.transform.smoothscale_by(self.current_enemy.image, factor=3.0)
+        self.current_enemy.rect = self.current_enemy.image.get_rect()
+        self.current_enemy.rect.x, self.current_enemy.rect.y = self.enemy_battle_screen_position
+
+        self.player_world_screen_position = (self.player.rect.x, self.player.rect.y)
+        self.player.image = pygame.transform.smoothscale_by(self.player.image, factor=3.0)
+        self.player.rect = self.player.image.get_rect()
+
+        WorldScreen.is_battle_scene = True
+
+    def finish_battle(self):
+        pass

@@ -17,12 +17,12 @@ bear = Bear()
 
 if __name__ == '__main__':
     world_screen.add_player(wizard)
-    world_screen.add_sprite(wizard)
-    world_screen.add_sprite(bear, dest=(300, 300), m_scale=(300, 200))
-    world_screen.add_sprite(Spider(), dest=(600, 300), m_scale=(300, 200))
-    world_screen.add_sprite(Mantis(), dest=(900, 300), m_scale=(300, 200))
-    world_screen.add_sprite(Wasp(), dest=(600, 500), m_scale=(300, 200))
-    world_screen.add_sprite(Cockroach(), dest=(600, 100), m_scale=(300, 200))
+    world_screen.add_sprite(wizard, dest=(0, 0), m_scale=(66, 133))
+    world_screen.add_sprite(bear, dest=(300, 300), m_scale=(100, 66))
+    world_screen.add_sprite(Spider(), dest=(600, 300), m_scale=(100, 66))
+    world_screen.add_sprite(Mantis(), dest=(900, 300), m_scale=(100, 66))
+    world_screen.add_sprite(Wasp(), dest=(600, 500), m_scale=(100, 66))
+    world_screen.add_sprite(Cockroach(), dest=(600, 100), m_scale=(100, 66))
 
     run = True
     while run:
