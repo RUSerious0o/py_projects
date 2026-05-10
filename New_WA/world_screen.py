@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import sys
 from pygame.sprite import Sprite
@@ -27,6 +29,9 @@ class WorldScreen(Sprite):
                                               self.screen.get_height() / 2 - 200)
         self.player_world_screen_position = None
         self.world_map_image = pygame.image.load('./images/map.png')
+
+        self.test_enemy_area = pygame.Rect(0, 0, 300, 300)
+        self.player_previous_position = (0, 0)
 
     def update(self):
         if not WorldScreen.is_battle_scene:
@@ -76,10 +81,15 @@ class WorldScreen(Sprite):
         self.sprites.append(sprite)
 
     def draw_world_scene(self):
-        # self.screen.blit(self.test_surface, (0, 500))
-        # if self.player.rect.colliderect(self.test_surface.get_rect()):
-        #     print(f'Collision {self.test_surface.get_rect()}')
-        # self.screen.fill(self.bg_color)
+        if self.player.rect.colliderect(self.test_enemy_area):
+            player_position = self.player.rect.x, self.player.rect.y
+            if player_position != self.player_previous_position:
+                self.player_previous_position = player_position
+                if random.randint(0, 100) > 99:
+                    self.current_enemy = Bear()
+                    self.init_battle_scene(self.current_enemy)
+                    return
+
         self.screen.blit(self.world_map_image, (0, 0))
 
         for sprite in self.sprites:
@@ -159,7 +169,7 @@ class WorldScreen(Sprite):
     def finish_battle(self):
         WorldScreen.is_battle_scene = False
 
-        self.sprites.remove(self.current_enemy)
+        # self.sprites.remove(self.current_enemy)
         Wizard.to_level -= self.current_enemy.exp_wizard
         self.current_enemy = None
         self.is_player_turn = True

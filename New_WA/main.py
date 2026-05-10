@@ -17,7 +17,7 @@ bear = Bear()
 
 if __name__ == '__main__':
     world_screen.add_player(wizard)
-    world_screen.add_sprite(wizard, dest=(0, 0), m_scale=(100, 133))
+    world_screen.add_sprite(wizard, dest=(90, 90), m_scale=(100, 133))
     world_screen.add_sprite(bear, dest=(300, 300), m_scale=(100, 66))
     world_screen.add_sprite(Spider(), dest=(600, 300), m_scale=(100, 66))
     world_screen.add_sprite(Mantis(), dest=(900, 300), m_scale=(100, 66))
