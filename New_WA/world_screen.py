@@ -23,10 +23,10 @@ class WorldScreen(Sprite):
         self.font = pygame.font.Font(None, 36)
         self.enemy_battle_screen_position = (self.screen.get_width() / 4 * 3 - 150,
                                              self.screen.get_height() / 2 - 100)
-        self.player_battle_screen_position = (self.screen.get_width() / 4 - 100,
+        self.player_battle_screen_position = (self.screen.get_width() / 4 - 200,
                                               self.screen.get_height() / 2 - 200)
         self.player_world_screen_position = None
-
+        self.world_map_image = pygame.image.load('./images/map.png')
 
     def update(self):
         if not WorldScreen.is_battle_scene:
@@ -55,6 +55,7 @@ class WorldScreen(Sprite):
 
                 if self.current_enemy.rect.colliderect(self.player.rect):
                     self.player.hp -= self.current_enemy.damage
+                    self.current_enemy.rect.x += self.current_enemy.movement_speed
                     self.current_enemy.is_attacking = False
                     self.current_enemy.is_returning = True
 
@@ -75,7 +76,11 @@ class WorldScreen(Sprite):
         self.sprites.append(sprite)
 
     def draw_world_scene(self):
-        self.screen.fill(self.bg_color)
+        # self.screen.blit(self.test_surface, (0, 500))
+        # if self.player.rect.colliderect(self.test_surface.get_rect()):
+        #     print(f'Collision {self.test_surface.get_rect()}')
+        # self.screen.fill(self.bg_color)
+        self.screen.blit(self.world_map_image, (0, 0))
 
         for sprite in self.sprites:
             sprite.update()
@@ -117,6 +122,10 @@ class WorldScreen(Sprite):
 
         if self.current_enemy.hp <= 0:
             self.finish_battle()
+
+        elif self.player.hp <= 0:
+            pygame.quit()
+            sys.exit()
     def blit_battle_txt(self):
         self.screen.blit(
             self.font.render(f'Хп игрока = {self.player.hp}', True, self.font_color),
@@ -142,7 +151,6 @@ class WorldScreen(Sprite):
         self.current_enemy.rect.x, self.current_enemy.rect.y = self.enemy_battle_screen_position
 
         self.player_world_screen_position = (self.player.rect.x, self.player.rect.y)
-        # self.player.image = pygame.transform.smoothscale_by(self.player.image, factor=3.0)
         self.player.image = self.player.image_battle
         self.player.rect = self.player.image.get_rect()
 
@@ -150,10 +158,18 @@ class WorldScreen(Sprite):
 
     def finish_battle(self):
         WorldScreen.is_battle_scene = False
+
         self.sprites.remove(self.current_enemy)
+        Wizard.to_level -= self.current_enemy.exp_wizard
         self.current_enemy = None
         self.is_player_turn = True
 
+        PurpleBall.reset_mult()
+
+        if Wizard.to_level <= 0:
+            Wizard.level += 1
+            Wizard.to_level = 5 * Wizard.level
+            self.player.hp *= 2
         self.player.image = self.player.image_world
         self.player.rect = self.player.image.get_rect()
         self.player.rect.x, self.player.rect.y = self.player_world_screen_position

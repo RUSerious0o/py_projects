@@ -2,11 +2,13 @@ import pygame
 
 from pygame.sprite import Sprite
 
+from wizard import Wizard
+
 
 class Ball(Sprite):
     def __init__(self):
         super().__init__()
-        self.damage = 1
+        self.damage = 10 * Wizard.level
         self.image = None
         self.speed = 30
 
@@ -33,4 +35,4 @@ class RedBall(Ball):
         super().__init__()
         self.image = pygame.image.load(RedBall.image_path)
         self.rect = self.image.get_rect()
-        self.damage = 2 * PurpleBall.damage_mult
+        self.damage = 20 * PurpleBall.damage_mult * Wizard.level
