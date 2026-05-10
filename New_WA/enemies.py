@@ -22,7 +22,7 @@ class Enemy(Sprite):
         self.image_battle = pygame.transform.scale(pygame.image.load(self.main_image_path), (300, 200))
         self.image = self.image_world
         self.rect = self.image.get_rect()
-        self.hp = hp if hp != Enemy.__DEFAULT_HP else self.hp
+        self.hp = hp if hp != Enemy.__DEFAULT_HP else self.hp / 10
         self.damage = damage if damage != Enemy.__DEFAULT_DAMAGE else self.damage
         self.exp_wizard = exp_wizard if exp_wizard != Enemy.__DEFAULT_EXP_WIZARD else self.exp_wizard
         self.is_attacking = False

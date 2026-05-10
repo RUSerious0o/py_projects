@@ -6,18 +6,21 @@ from pygame.sprite import Sprite
 
 from ball import *
 from enemies import *
+from encounter_area import EncounterArea
 
 
 class WorldScreen(Sprite):
     is_battle_scene = False
 
-    def __init__(self, screen: pygame.Surface, sprites: list = [], bg_color: tuple = (6, 185, 30)):
+    def __init__(self, screen: pygame.Surface, sprites: list = [], bg_color: tuple = (6, 185, 30), encounters_areas: list = []):
         super().__init__()
         self.screen = screen
         self.bg_color = bg_color
         self.sprites = sprites
+        self.encounter_areas = encounters_areas
 
         self.current_enemy: Enemy = None
+        self.encounter_area = EncounterArea(0, 0, 400, 400, [Bear, Spider, Wasp])
         self.player = None
         self.ball = None
         self.is_player_turn = True
@@ -81,14 +84,18 @@ class WorldScreen(Sprite):
         self.sprites.append(sprite)
 
     def draw_world_scene(self):
-        if self.player.rect.colliderect(self.test_enemy_area):
+        # if self.player.rect.colliderect(self.test_enemy_area):
+        if self.test_enemy_area.collidepoint(self.player.rect.x, self.player.rect.y):
             player_position = self.player.rect.x, self.player.rect.y
             if player_position != self.player_previous_position:
                 self.player_previous_position = player_position
-                if random.randint(0, 100) > 99:
-                    self.current_enemy = Bear()
-                    self.init_battle_scene(self.current_enemy)
-                    return
+                # for area in self.encounter_areas:
+                #     print(area)
+                #     if self.player.rect.colliderect(area):
+                #         self.encounter_area = area
+                #         break
+                if random.randint(0, 100) > self.encounter_area.percent:
+                    self.init_battle_scene(self.encounter_area.generate_enemy())
 
         self.screen.blit(self.world_map_image, (0, 0))
 
