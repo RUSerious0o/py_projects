@@ -7,12 +7,13 @@ class Wizard(Sprite):
     move_speed = 10
     level = 1
     to_level = 5
-
+    world_map_image_size = (50, 66)
+    battle_scene_size = (300, 400)
 
     def __init__(self, hp: int = 1000):
         super().__init__()
-        self.image_world = pygame.transform.scale(pygame.image.load(Wizard.main_image_path), (100, 133))
-        self.image_battle = pygame.transform.scale(pygame.image.load(Wizard.main_image_path), (300, 400))
+        self.image_world = pygame.transform.scale(pygame.image.load(Wizard.main_image_path), self.world_map_image_size)
+        self.image_battle = pygame.transform.scale(pygame.image.load(Wizard.main_image_path), self.battle_scene_size)
 
         self.image = self.image_world
         self.rect = self.image.get_rect()
