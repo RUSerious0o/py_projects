@@ -13,6 +13,7 @@ class WorldScreen(Sprite):
     is_battle_scene = False
     is_player_turn = True
     font_color = (255, 255, 98)
+    battle_scene_bg_color = (255, 125, 0)
 
     def __init__(self, screen: pygame.Surface, sprites: list = [], bg_color: tuple = (6, 185, 30)):
         super().__init__()
@@ -123,19 +124,26 @@ class WorldScreen(Sprite):
         pygame.display.flip()
 
     def draw_battle_scene(self):
-        player = self.player
-        bg_color = (255, 125, 0)
-        player_dest = self.player_battle_screen_position
-        player.rect.x, player.rect.y = self.player_battle_screen_position
+        self.screen.fill(self.battle_scene_bg_color)
+        self.player.rect.x, self.player.rect.y = self.player_battle_screen_position
         enemy_dest = self.current_enemy.rect.x, self.current_enemy.rect.y
 
-        self.screen.fill(bg_color)
-
-        self.screen.blit(player.image, player_dest)
+        self.screen.blit(self.player.image, self.player_battle_screen_position)
         self.screen.blit(self.current_enemy.image, enemy_dest)
-        self.current_enemy.rect.x, self.current_enemy.rect.y = enemy_dest
-        self.blit_battle_txt()
 
+        self.blit_battle_txt()
+        self.draw_ball()
+
+        pygame.display.flip()
+
+        if self.current_enemy.hp <= 0:
+            self.finish_battle()
+
+        elif self.player.hp <= 0:
+            pygame.quit()
+            sys.exit()
+
+    def draw_ball(self):
         if self.ball:
             self.screen.blit(self.ball.image, (self.ball.rect.x, self.ball.rect.y))
             self.ball.rect.x += self.ball.speed
@@ -146,15 +154,6 @@ class WorldScreen(Sprite):
                 self.ball = None
                 self.is_player_turn = False
                 self.current_enemy.is_attacking = True
-
-        pygame.display.flip()
-
-        if self.current_enemy.hp <= 0:
-            self.finish_battle()
-
-        elif self.player.hp <= 0:
-            pygame.quit()
-            sys.exit()
 
     def blit_battle_txt(self):
         self.screen.blit(
@@ -174,8 +173,8 @@ class WorldScreen(Sprite):
                  (self.screen.get_width() / 20, self.screen.get_height() / 20 + 50)
         )
 
-    def init_battle_scene(self, sprite: Sprite):
-        self.current_enemy = sprite
+    def init_battle_scene(self, enemy: Enemy):
+        self.current_enemy = enemy
         self.current_enemy.image = self.current_enemy.image_battle
         self.current_enemy.rect = self.current_enemy.image.get_rect()
         self.current_enemy.rect.x, self.current_enemy.rect.y = self.enemy_battle_screen_position
