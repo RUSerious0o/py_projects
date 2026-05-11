@@ -12,15 +12,14 @@ from encounter_area import EncounterArea
 class WorldScreen(Sprite):
     is_battle_scene = False
 
-    def __init__(self, screen: pygame.Surface, sprites: list = [], bg_color: tuple = (6, 185, 30), encounters_areas: list = []):
+    def __init__(self, screen: pygame.Surface, sprites: list = [], bg_color: tuple = (6, 185, 30)):
         super().__init__()
         self.screen = screen
         self.bg_color = bg_color
         self.sprites = sprites
-        self.encounter_areas = encounters_areas
 
         self.current_enemy: Enemy = None
-        self.encounter_area = EncounterArea(0, 0, 400, 400, [Bear, Spider, Wasp])
+        self.encounter_areas = []
         self.player = None
         self.ball = None
         self.is_player_turn = True
@@ -33,8 +32,15 @@ class WorldScreen(Sprite):
         self.player_world_screen_position = None
         self.world_map_image = pygame.image.load('./images/map.png')
 
-        self.test_enemy_area = pygame.Rect(0, 0, 300, 300)
         self.player_previous_position = (0, 0)
+
+        self.preset_encounter_areas()
+
+    def preset_encounter_areas(self):
+        self.encounter_areas.append(EncounterArea(0, 0, 400, 400, [Bear, Spider, Wasp]))
+        self.encounter_areas.append(EncounterArea(0, 450, 750, 350, [Mantis, Thunder, Turtle]))
+        self.encounter_areas.append(EncounterArea(800, 500, 400, 300, [Cat, Elephant]))
+        self.encounter_areas.append(EncounterArea(800, 0, 400, 450, [Cockroach, Dog]))
 
     def update(self):
         if not WorldScreen.is_battle_scene:
@@ -84,18 +90,14 @@ class WorldScreen(Sprite):
         self.sprites.append(sprite)
 
     def draw_world_scene(self):
-        # if self.player.rect.colliderect(self.test_enemy_area):
-        if self.test_enemy_area.collidepoint(self.player.rect.x, self.player.rect.y):
-            player_position = self.player.rect.x, self.player.rect.y
-            if player_position != self.player_previous_position:
-                self.player_previous_position = player_position
-                # for area in self.encounter_areas:
-                #     print(area)
-                #     if self.player.rect.colliderect(area):
-                #         self.encounter_area = area
-                #         break
-                if random.randint(0, 100) > self.encounter_area.percent:
-                    self.init_battle_scene(self.encounter_area.generate_enemy())
+        for encounter_area in self.encounter_areas:
+            if encounter_area.collidepoint(self.player.rect.x, self.player.rect.y):
+                player_position = self.player.rect.x, self.player.rect.y
+                if player_position != self.player_previous_position:
+                    self.player_previous_position = player_position
+                    if random.randint(0, 100) > encounter_area.percent:
+                        self.init_battle_scene(encounter_area.generate_enemy())
+                        break
 
         self.screen.blit(self.world_map_image, (0, 0))
 
