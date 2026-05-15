@@ -7,6 +7,7 @@ from pygame.sprite import Sprite
 from ball import *
 from enemies import *
 from encounter_area import EncounterArea
+from wizard import Wizard
 
 
 class WorldScreen(Sprite):
@@ -24,13 +25,14 @@ class WorldScreen(Sprite):
 
         # Изначально нулевые
         self.current_enemy: Enemy = None
-        self.player = None
         self.ball = None
         self.player_world_screen_position = None
         self.player_previous_position = (0, 0)
         self.encounter_areas = []
 
         # Инициализированные поля
+        self.player = Wizard()
+        self.add_sprite(self.player, dest=(450, 90), m_scale=(50, 66))
         self.font = pygame.font.Font(None, 36)
         self.enemy_battle_screen_position = (self.screen.get_width() / 4 * 3 - 150,
                                              self.screen.get_height() / 2 - 100)
@@ -49,6 +51,7 @@ class WorldScreen(Sprite):
 
     def update(self):
         if not WorldScreen.is_battle_scene:
+            self.check_encounter_areas_collision()
             self.draw_world_scene()
         else:
             self.draw_battle_scene()
@@ -59,6 +62,16 @@ class WorldScreen(Sprite):
                 self.handle_player_action()
             else:
                 self.handle_current_enemy_action()
+
+    def check_encounter_areas_collision(self):
+        for encounter_area in self.encounter_areas:
+            if encounter_area.collidepoint(self.player.rect.x, self.player.rect.y):
+                player_position = self.player.rect.x, self.player.rect.y
+                if player_position != self.player_previous_position:
+                    self.player_previous_position = player_position
+                    if random.randint(0, 100) > encounter_area.percent:
+                        self.init_battle_scene(encounter_area.generate_enemy())
+                        break
 
     def handle_player_action(self):
         for event in pygame.event.get():
@@ -101,21 +114,13 @@ class WorldScreen(Sprite):
         self.sprites.append(sprite)
 
     def draw_world_scene(self):
-        for encounter_area in self.encounter_areas:
-            if encounter_area.collidepoint(self.player.rect.x, self.player.rect.y):
-                player_position = self.player.rect.x, self.player.rect.y
-                if player_position != self.player_previous_position:
-                    self.player_previous_position = player_position
-                    if random.randint(0, 100) > encounter_area.percent:
-                        self.init_battle_scene(encounter_area.generate_enemy())
-                        break
-
         self.screen.blit(self.world_map_image, (0, 0))
 
         for sprite in self.sprites:
             sprite.update()
             self.screen.blit(sprite.image, (sprite.rect.x, sprite.rect.y))
 
+        # Проверка коллизий с врагами, прямо размещенными на карте @deprecated
         if len(self.sprites) > 0:
             for sprite in self.sprites[1:]:
                 if self.player.rect.colliderect(sprite.rect):

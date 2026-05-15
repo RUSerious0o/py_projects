@@ -28,7 +28,7 @@ class Wizard(Sprite):
             self.rect.x += Wizard.move_speed
         if keys[pygame.K_a] and self.rect.x > 0:
             self.rect.x -= Wizard.move_speed
-        if keys[pygame.K_s] and self.rect.y < 670:
+        if keys[pygame.K_s] and self.rect.y < 730:
             self.rect.y += Wizard.move_speed
         if keys[pygame.K_w] and self.rect.y > 0:
             self.rect.y -= Wizard.move_speed
