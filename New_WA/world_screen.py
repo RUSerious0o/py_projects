@@ -56,6 +56,7 @@ class WorldScreen(Sprite):
     def update(self):
         if not WorldScreen.is_battle_scene:
             self.check_encounter_areas_collision()
+            self.check_home_collision()
             self.draw_world_scene()
         else:
             self.draw_battle_scene()
@@ -80,6 +81,10 @@ class WorldScreen(Sprite):
                 break
         else:
             self.player_inside_encounter_area = False
+
+    def check_home_collision(self):
+        if self.player.rect.colliderect(self.home.rect):
+            print('дом БУУУУУУУУУУУУУ испугалсяяяяяяяяяяяяяя')
 
 
     def handle_player_action(self):

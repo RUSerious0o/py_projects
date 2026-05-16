@@ -8,6 +8,7 @@ class WorldMapObject(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load(self.main_image_path)
         self.image = pygame.transform.scale(self.image, (100, 100))
+        self.rect = self.image.get_rect()
 
 
 class Home(WorldMapObject):
