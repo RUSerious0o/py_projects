@@ -30,6 +30,7 @@ class WorldScreen(Sprite):
         self.player_world_screen_position = None
         self.player_previous_position = (0, 0)
         self.encounter_areas = []
+        self.player_inside_encounter_area = False
 
         # Инициализированные поля
         self.player = Wizard()
@@ -69,12 +70,17 @@ class WorldScreen(Sprite):
     def check_encounter_areas_collision(self):
         for encounter_area in self.encounter_areas:
             if encounter_area.collidepoint(self.player.rect.x, self.player.rect.y):
+                self.player_inside_encounter_area = True
                 player_position = self.player.rect.x, self.player.rect.y
                 if player_position != self.player_previous_position:
                     self.player_previous_position = player_position
                     if random.randint(0, 100) > encounter_area.percent:
                         self.init_battle_scene(encounter_area.generate_enemy())
-                        break
+                        return
+                break
+        else:
+            self.player_inside_encounter_area = False
+
 
     def handle_player_action(self):
         for event in pygame.event.get():
@@ -122,6 +128,11 @@ class WorldScreen(Sprite):
         for sprite in self.sprites:
             sprite.update()
             self.screen.blit(sprite.image, (sprite.rect.x, sprite.rect.y))
+
+        if self.player_inside_encounter_area:
+            self.screen.blit(self.player.image_in_encounter_area,
+                             (self.player.rect.x + Wizard.world_map_image_size[0] / 2,
+                              self.player.rect.y - Wizard.world_map_in_encounter_area_image_size[-1]))
 
         # Проверка коллизий с врагами, прямо размещенными на карте @deprecated
         # if len(self.sprites) > 0:
