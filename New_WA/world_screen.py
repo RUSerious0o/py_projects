@@ -8,6 +8,7 @@ from ball import *
 from enemies import *
 from encounter_area import EncounterArea
 from wizard import Wizard
+from world_map_object import *
 
 
 class WorldScreen(Sprite):
@@ -33,6 +34,8 @@ class WorldScreen(Sprite):
         # Инициализированные поля
         self.player = Wizard()
         self.add_sprite(self.player, dest=(450, 90), m_scale=(50, 66))
+        self.home = Home()
+        self.add_sprite(self.home, (500, 100), (150, 150))
         self.font = pygame.font.Font(None, 36)
         self.enemy_battle_screen_position = (self.screen.get_width() / 4 * 3 - 150,
                                              self.screen.get_height() / 2 - 100)
@@ -121,10 +124,10 @@ class WorldScreen(Sprite):
             self.screen.blit(sprite.image, (sprite.rect.x, sprite.rect.y))
 
         # Проверка коллизий с врагами, прямо размещенными на карте @deprecated
-        if len(self.sprites) > 0:
-            for sprite in self.sprites[1:]:
-                if self.player.rect.colliderect(sprite.rect):
-                    self.init_battle_scene(sprite)
+        # if len(self.sprites) > 0:
+        #     for sprite in self.sprites[1:]:
+        #         if self.player.rect.colliderect(sprite.rect):
+        #             self.init_battle_scene(sprite)
 
         pygame.display.flip()
 

@@ -73,11 +73,11 @@ class Wasp(Enemy):
 
 
 class Cockroach(Enemy):
-    main_image_path = './images/cockroach.png'
+    main_image_path = './images/cockroach_AI.png'
     hp = 260
     damage = 40
     exp_wizard = 3
-    size_image_battle = (300, 200)
+    size_image_battle = (300, 300)
 
 
 class Turtle(Enemy):
