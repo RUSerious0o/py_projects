@@ -55,9 +55,12 @@ class WorldScreen(Sprite):
 
     def update(self):
         if not WorldScreen.is_battle_scene:
-            self.check_encounter_areas_collision()
-            self.check_home_collision()
-            self.draw_world_scene()
+            if self.home.is_in_home == False:
+                self.check_encounter_areas_collision()
+                self.check_home_collision()
+                self.draw_world_scene()
+            else:
+                self.draw_home_scene()
         else:
             self.draw_battle_scene()
             if self.is_player_turn:
@@ -85,7 +88,22 @@ class WorldScreen(Sprite):
     def check_home_collision(self):
         if self.player.rect.colliderect(self.home.rect):
             print('дом БУУУУУУУУУУУУУ испугалсяяяяяяяяяяяяяя')
+            self.world_map_image = pygame.transform.scale(pygame.image.load('./images/wizard_home.png'), (1200, 800))
 
+            self.player.image = self.player.image_battle
+            self.player.rect = self.player.image.get_rect()
+
+            self.home.is_in_home = True
+
+    def draw_home_scene(self):
+        self.screen.blit(self.world_map_image, (0, 0))
+
+        self.move_player()
+
+        self.player.update()
+        self.screen.blit(self.player.image, (self.player.rect.x, self.player.rect.y))
+
+        pygame.display.flip()
 
     def handle_player_action(self):
         for event in pygame.event.get():
@@ -130,6 +148,8 @@ class WorldScreen(Sprite):
     def draw_world_scene(self):
         self.screen.blit(self.world_map_image, (0, 0))
 
+        self.move_player()
+
         for sprite in self.sprites:
             sprite.update()
             self.screen.blit(sprite.image, (sprite.rect.x, sprite.rect.y))
@@ -146,6 +166,17 @@ class WorldScreen(Sprite):
         #             self.init_battle_scene(sprite)
 
         pygame.display.flip()
+
+    def move_player(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_d] and self.player.rect.x < self.screen.get_width() - self.player.rect.width:
+            self.player.move(1, 0)
+        if keys[pygame.K_a] and self.player.rect.x > 0:
+            self.player.move(-1, 0)
+        if keys[pygame.K_s] and self.player.rect.y < self.screen.get_height() - self.player.rect.height:
+            self.player.move(0, 1)
+        if keys[pygame.K_w] and self.player.rect.y > 0:
+            self.player.move(0, -1)
 
     def draw_battle_scene(self):
         self.screen.fill(self.battle_scene_bg_color)

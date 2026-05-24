@@ -23,17 +23,6 @@ class Wizard(Sprite):
         self.rect = self.image.get_rect()
         self.hp = hp
 
-    def update(self):
-        self.move()
-
-    def move(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_d] and self.rect.x < 1130:
-            self.rect.x += Wizard.move_speed
-        if keys[pygame.K_a] and self.rect.x > 0:
-            self.rect.x -= Wizard.move_speed
-        if keys[pygame.K_s] and self.rect.y < 730:
-            self.rect.y += Wizard.move_speed
-        if keys[pygame.K_w] and self.rect.y > 0:
-            self.rect.y -= Wizard.move_speed
-
+    def move(self, dx: int = 0, dy: int = 0):
+        self.rect.x += dx * Wizard.move_speed
+        self.rect.y += dy * Wizard.move_speed

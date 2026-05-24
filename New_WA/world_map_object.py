@@ -10,6 +10,8 @@ class WorldMapObject(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
 
+        self.is_in_home = False
+
 
 class Home(WorldMapObject):
     main_image_path = './images/home_AI.png'
