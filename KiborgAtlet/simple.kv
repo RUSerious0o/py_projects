@@ -1,0 +1,102 @@
+<InputPopup>:
+    title: "Новый рекорд"
+    size_hint: 0.8, 0.6
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10
+        spacing: 10
+
+        Label:
+            text: "Тип нагрузки:"
+        Spinner:
+            id: spin_type
+            text: "динамика"
+            values: ["динамика", "статика"]
+
+        Label:
+            text: "Сложность нагрузки"
+        Spinner:
+            id: spin_diff
+            text: "простая"
+            values: ["простая", "сложная"]
+
+        Label:
+            text: "Что сделал (Упражнение):"
+        TextInput:
+            id: txt_name
+            multiline: False
+            size_hint_y: None
+            height: 40
+
+        Label:
+            text: "Результат (Повторы/Время):"
+        TextInput:
+            id: txt_res
+            multiline: False
+            size_hint_y: None
+            height: 40
+
+        Button:
+            text: "Добавить"
+            size_hint_y: 0.6
+            on_press: app.root.confirm_add()
+
+
+<ChangeRecordDialog>:
+    id: dialog
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        Label:
+            text: "Перезаписать рекорд"
+        TextInput:
+            id: txt_res
+            multiline: False
+            size_hint_y: None
+            height: 40
+
+        Button:
+            text: "Перезаписать"
+            size_hint_y: 0.6
+            on_press: app.root.rewrite_record()
+
+
+
+<MyRoot>:
+    orientation: 'vertical'
+    padding: 20
+    spacing: 10
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: 0.1
+        spacing: 10
+
+        Label:
+            text: "Юра"
+            font_size: 24
+
+        Button:
+            text: "+"
+            font_size: 48
+            on_press: root.add_gymnastics()
+
+    Label:
+        text: 'Упражнения'
+        font_size: 22
+        size_hint_y: 0.08
+
+    ScrollView:
+        size_hint_y: 0.77
+        bar_width: 10
+
+        GridLayout:
+            id: scroll_list
+            cols: 1
+            spacing: 10
+            size_hint_y: None
+            height: self.minimum_height
