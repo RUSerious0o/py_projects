@@ -1,0 +1,64 @@
+<SbaTracker>:
+    orientation: 'vertical'
+    padding: 10
+    spacing: 10
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: 0.2
+        spacing: 5
+
+        Button:
+            text: root.percent_text
+            size_hint_x: 0.25
+            on_release: root.open_dropdown(self)
+
+        Button:
+            text: root.hits_text
+            size_hint_x: 0.25
+
+        Button:
+            text: root.target_text
+            size_hint_x: 0.25
+
+        Button:
+            text: root.misses_text
+            size_hint_x: 0.25
+
+    Label:
+        text: root.current_score_text
+        halign: 'center'
+        valign: 'middle'
+        size_hint_y: 0.3
+        font_size: '24sp'
+        bold: True
+        color: root.score_color
+    Button:
+        text: root.culdone_text
+        halign: 'center'
+        valign: 'middle'
+        size_hint_y: 0.3
+        font_size: '24sp'
+        bold: True
+        color: root.score_color
+        on_release: root.culdone()
+
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: 0.2
+        spacing: 20
+
+        Button:
+            text: "+Попадание"
+            font_size: '18sp'
+            halign: 'center'
+            background_color: 0, 1, 0, 1
+            on_release: root.add_hit()
+
+        Button:
+            text: "+Промах"
+            font_size: '18sp'
+            halign: 'center'
+            background_color: 1, 0, 0, 1
+            on_release: root.add_miss()
