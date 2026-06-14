@@ -1,0 +1,84 @@
+#: include widgets/list_item.kv
+
+<MainScreen>
+    BoxLayout:
+        orientation: 'horizontal'
+
+    # БОКОВОЕ МЕНЮ
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.2, 1
+
+            ToggleButton:
+                text: "С/Р"
+
+            Button:
+                text: "Свернуть все"
+
+            Button:
+                text: "Сброс"
+
+    # ОСНОНОЕ ОКНО
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                id: sum_label
+                sum_: 0
+                text: "Итого: 0"
+                font_size: 48
+                size_hint: 1, 0.2
+
+            ScrollView:
+                bar_width: 10
+
+                GridLayout:
+                    id: list_items
+                    #orientation: 'vertical'
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        size_hint_y: None
+                        height: self.minimum_height
+
+                        Label:
+                            text: 'rtt'
+
+                        SectionButton:
+                            text: 'Подготовка'
+                            size_hint_y: None
+                            height: 50
+
+                        BoxLayout:
+                            size_hint_y: None
+                            orientation: 'vertical'
+                            id: preparation_items
+
+                            Label:
+                                text: 'Some text'
+
+                            Label:
+                                text: 'Some text'
+
+                    SectionButton:
+                        text: 'Чистка'
+
+                    SectionButton:
+                        text: 'Заправка'
+
+                    SectionButton:
+                        text: 'Дренаж'
+
+                    SectionButton:
+                        text: 'Прочее'
+
+<SectionButton@Button>
+    size_hint_y: None
+    height: 50
+    halign: 'left'
+    valign: 'middle'
+    text_size: self.size
+    padding: [20, 10]

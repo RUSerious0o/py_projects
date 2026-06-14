@@ -1,0 +1,36 @@
+<ListItem>
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: '60dp'
+    padding: [10, 0]
+
+    canvas.before:
+        Color:
+            rgba: (0.4, 0.4, 0.4, 1) if self.state == 'down' else (0.2, 0.2, 0.2, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+        Color:
+            rgba: 0.7, 0.7, 0.7, 1
+        Line:
+            points: [self.x, self.y, self.x + self.width, self.y]
+
+    ItemLabel:
+        id: description_label
+        text: 'Item'
+
+        halign: 'left'
+
+    ItemLabel:
+        id: price_label
+        text: '0'
+
+        halign: 'right'
+
+<ItemLabel@Label>
+    size_hint_y: None
+    height: 50
+    valign: 'middle'
+    text_size: self.size
+    padding: [20, 10]
