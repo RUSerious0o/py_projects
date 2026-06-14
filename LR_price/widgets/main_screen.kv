@@ -11,12 +11,15 @@
 
             ToggleButton:
                 text: "С/Р"
+                state: 'down'
+                on_release: root.change_sum(3350 if self.state == 'down' else -3350)
 
             Button:
                 text: "Свернуть все"
 
             Button:
                 text: "Сброс"
+                on_release: root.reset_selection()
 
     # ОСНОНОЕ ОКНО
         BoxLayout:
@@ -24,8 +27,8 @@
 
             Label:
                 id: sum_label
-                sum_: 0
-                text: "Итого: 0"
+                sum_: 3350
+                text: "Итого: 3350"
                 font_size: 48
                 size_hint: 1, 0.2
 
@@ -34,51 +37,64 @@
 
                 GridLayout:
                     id: list_items
-                    #orientation: 'vertical'
                     cols: 1
                     size_hint_y: None
                     height: self.minimum_height
 
-                    BoxLayout:
-                        orientation: 'vertical'
-                        size_hint_y: None
-                        height: self.minimum_height
+                    SectionLayout:
+                        section_name: 'Подготовка'
+                        id: preps_section
 
-                        Label:
-                            text: 'rtt'
+                    SectionLayout:
+                        section_name: 'Чистка'
+                        id: cleanse_section
 
-                        SectionButton:
-                            text: 'Подготовка'
-                            size_hint_y: None
-                            height: 50
+                    SectionLayout:
+                        section_name: 'Заправка'
+                        id: refill_section
 
-                        BoxLayout:
-                            size_hint_y: None
-                            orientation: 'vertical'
-                            id: preparation_items
+                    SectionLayout:
+                        section_name: 'Дренаж'
+                        id: water_drain_section
 
-                            Label:
-                                text: 'Some text'
+                    SectionLayout:
+                        section_name: 'Прочее'
+                        id: other_section
 
-                            Label:
-                                text: 'Some text'
-
-                    SectionButton:
-                        text: 'Чистка'
-
-                    SectionButton:
-                        text: 'Заправка'
-
-                    SectionButton:
-                        text: 'Дренаж'
-
-                    SectionButton:
-                        text: 'Прочее'
-
-<SectionButton@Button>
+<SectionButton@ToggleButton>
     size_hint_y: None
-    height: 50
+    text_size: self.size
     halign: 'left'
     valign: 'middle'
-    text_size: self.size
-    padding: [20, 10]
+    padding: 10
+    font_size: 24
+
+    background_normal: ''
+    background_down: ''
+
+    background_color: (0.2, 0.2, 0.6, 1) if self.state == 'down' else (0.2, 0.2, 0.2, 1)
+
+    canvas.after:
+        Color:
+            #rgba: (0.2, 0.2, 0.2, 1)
+            rgba: (1, 1, 1, 1)
+        Line:
+            points: [self.x, self.y, self.x + self.width, self.y]
+
+<SectionLayout@BoxLayout>
+    orientation: 'vertical'
+    size_hint_y: None
+    section_name: 'Имя раздела'
+
+    SectionButton:
+        text: root.section_name
+        state: 'down'
+
+        #on_release: content.disabled = not content.disabled
+        #on_release: content.disabled = True; root.height = 50
+
+    BoxLayout:
+        id: content
+        orientation: 'vertical'
+        size_hint_y: None
+        height: 0
