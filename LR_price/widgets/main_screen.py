@@ -29,3 +29,5 @@ class MainScreen(Screen):
                 if widget.state == 'down':
                     widget.state = 'normal'
                     widget.on_release()
+
+#     TODO при длинном нажатии на пенкт меню, он выбирается, но сумма не добавляется (если убрать палец не на самом пункте)

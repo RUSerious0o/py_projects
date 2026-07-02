@@ -2,7 +2,7 @@
     orientation: 'horizontal'
     size_hint_y: None
     height: '60dp'
-    padding: [10, 0]
+    padding: 0
 
     canvas.before:
         Color:
@@ -19,20 +19,21 @@
     ItemLabel:
         id: description_label
         text: 'Item'
-        size_hint_x: 0.8
+        size_hint_x: 0.75
 
         halign: 'left'
 
     ItemLabel:
         id: price_label
         text: '0'
-        size_hint_x: None
+        size_hint_x: 0.25
 
         halign: 'right'
 
 <ItemLabel@Label>
     size_hint_y: None
-    height: 50
+    height: '60dp'
     valign: 'middle'
     text_size: self.size
-    padding: [20, 10]
+    padding: '4dp'
+    font_size: '14dp'
