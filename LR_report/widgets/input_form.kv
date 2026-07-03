@@ -12,7 +12,7 @@
 
             Label:
                 text: 'Сумма'
-                size_hint_x: 0.333
+                size_hint_x: 0.3
 
             CashInput:
                 id: total_cost_input
@@ -24,7 +24,7 @@
 
             Label:
                 text: 'Детали'
-                size_hint_x: 0.333
+                size_hint_x: 0.3
 
             CashInput:
                 id: parts_cost_input
@@ -34,49 +34,58 @@
 
             Label:
                 text: 'Оплата'
+                size_hint_x: 0.3
 
             ToggleButton:
                 text: 'Наличные'
                 group: 'payment_type'
                 state: 'down'
                 tag: 'Н'
+                size_hint_x: 0.35
 
             ToggleButton:
                 text: 'Безнал'
                 group: 'payment_type'
                 tag: 'БН'
+                size_hint_x: 0.35
 
         BoxLayout:
             orientation: 'horizontal'
 
             Label:
                 text: 'Процент'
-                size_hint_x: 0.333
+                size_hint_x: 0.3
+
+            ToggleButton:
+                text: '30 %'
+                group: 'percentage'
+                tag: '0.3'
+                size_hint_x: 0.7 / 5
 
             ToggleButton:
                 text: '50 %'
                 group: 'percentage'
                 state: 'down'
                 tag: '0.5'
-                size_hint_x: 0.667 / 4
+                size_hint_x: 0.7 / 5
 
             ToggleButton:
                 text: '60 %'
                 group: 'percentage'
                 tag: '0.6'
-                size_hint_x: 0.667 / 4
+                size_hint_x: 0.7 / 5
 
             ToggleButton:
                 text: '70 %'
                 group: 'percentage'
                 tag: '0.7'
-                size_hint_x: 0.667 / 4
+                size_hint_x: 0.7 / 5
 
             ToggleButton:
                 text: '100 %'
                 group: 'percentage'
                 tag: '1.0'
-                size_hint_x: 0.667 / 4
+                size_hint_x: 0.7 / 5
 
         BoxLayout:
             orientation: 'horizontal'
@@ -101,7 +110,7 @@
     foreground_color: (0.9, 0.9, 0.9, 1)
     input_filter: 'int'
     padding: [10, (self.height - self.line_height) / 2, 10, (self.height - self.line_height) / 2]
-    size_hint_x: 0.667
+    size_hint_x: 0.7
 
 <Label>
     font_size: '36dp'
