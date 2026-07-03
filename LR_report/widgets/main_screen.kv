@@ -1,0 +1,36 @@
+#: include widgets/list_item.kv
+
+<MainScreen>
+    name: 'main_screen'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+
+            Button:
+                text: '+'
+                on_press: root.manager.current = 'input_form_screen'
+
+            Label:
+                text: 'Итого: '
+
+            Label:
+                text: str(root.total_cash) if root.total_cash <= 0 else '+' + str(root.total_cash)
+
+            Button:
+                text: 'Save'
+                on_press: root.save_report()
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            BoxLayout:
+                id: data_container
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 2
