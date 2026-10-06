@@ -14,13 +14,13 @@ class DonutChart(Widget):
         super().__init__(**kwargs)
 
         self.chart_width = 0.2
-        self.angle = 10
+        self.angle = 0
         # фон, прогресс, остаток, внутренняя зона
         self.colors = (
             [0.9, 0.9, 0.9, 1],
             [1, 1, 1, 1],
             [29 / 255, 86 / 255, 64 / 255, 1],
-            [0.15, 0.15, 0.15, 1],
+            [0.1, 0.1, 0.1, 1],
         )
 
         self.chart_size = self.height, self.height * (1 - self.chart_width)
