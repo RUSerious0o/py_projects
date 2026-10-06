@@ -1,30 +1,35 @@
 <DonutChart>:
     canvas:
+        # Фон
         Color:
-            rgba: 0.2, 0.2, 0.2, 1
+            rgba: self.colors[0]
         Ellipse:
             pos: self.pos
-            size: self.chart_size
+            size: self.chart_size[0], self.chart_size[0]
 
+        # Полоса прогресса
         Color:
-            rgba: 0.1, 0.7, 0.3, 1
+            rgba: self.colors[1]
         Ellipse:
             pos: self.pos
-            size: self.chart_size
+            size: self.chart_size[0], self.chart_size[0]
             angle_start: 0
-            angle_end: 200
+            angle_end: self.angle
 
+        # Полоса остатка
         Color:
-            rgba: 0.3, 0.9, 0.5, 1
+            rgba: self.colors[2]
         Ellipse:
             pos: self.pos
-            size: self.chart_size
-            angle_start: 200
+            size: self.chart_size[0], self.chart_size[0]
+            angle_start: self.angle
             angle_end: 360
 
+        # Внутренняя зона
         Color:
-            rgba: 0.15, 0.15, 0.15, 1
+            rgba: self.colors[3]
         Ellipse:
-            size: self.chart_hole[0], self.chart_hole[1]
-            pos: self.x + self.chart_size[0] * 0.5 - self.chart_hole[0] * 0.5, self.y + self.chart_size[1] * 0.5 - self.chart_hole[1] * 0.5
+            size: self.chart_size[1], self.chart_size[1]
+            pos: self.x + self.chart_size[0] * 0.5 - self.chart_size[1] * 0.5, self.y + self.chart_size[0] * 0.5 - self.chart_size[1] * 0.5
 
+    on_size: root.set_size(self.height)
