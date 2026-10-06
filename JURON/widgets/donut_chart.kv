@@ -1,0 +1,30 @@
+<DonutChart>:
+    canvas:
+        Color:
+            rgba: 0.2, 0.2, 0.2, 1
+        Ellipse:
+            pos: self.pos
+            size: self.chart_size
+
+        Color:
+            rgba: 0.1, 0.7, 0.3, 1
+        Ellipse:
+            pos: self.pos
+            size: self.chart_size
+            angle_start: 0
+            angle_end: 200
+
+        Color:
+            rgba: 0.3, 0.9, 0.5, 1
+        Ellipse:
+            pos: self.pos
+            size: self.chart_size
+            angle_start: 200
+            angle_end: 360
+
+        Color:
+            rgba: 0.15, 0.15, 0.15, 1
+        Ellipse:
+            size: self.chart_hole[0], self.chart_hole[1]
+            pos: self.x + self.chart_size[0] * 0.5 - self.chart_hole[0] * 0.5, self.y + self.chart_size[1] * 0.5 - self.chart_hole[1] * 0.5
+

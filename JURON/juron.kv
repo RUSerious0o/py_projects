@@ -1,0 +1,23 @@
+#: include widgets/donut_chart.kv
+
+BoxLayout:
+    orientation: 'vertical'
+
+    Label:
+        text: 'Chart:'
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        DonutChart:
+            size_hint: None, None
+            size: 300, 300
+            angle: 240
+
+        DonutChart:
+            size_hint: None, None
+            size: 300, 300
+            angle: 240
+
+    Label:
+        text: 'text'
