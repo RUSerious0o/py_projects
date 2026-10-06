@@ -5,6 +5,7 @@ class Rendered:
     def __init__(self, screen):
         self.screen = screen
 
+
     def draw_all_houses(self, houses_list):
         for house in houses_list:
             one_floor_h = house.fundament * 20 + house.height_window * 20
