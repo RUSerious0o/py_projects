@@ -1,38 +1,34 @@
 #: include widgets/donut_chart.kv
 #:import Window kivy.core.window.Window
 
-BoxLayout:
-    orientation: 'vertical'
+FloatLayout:
+    GridLayout:
+        cols: 2
+        rows: 2
+        size_hint: None, None
+        size: Window.width, Window.height * 0.35
+        padding: 20
+        spacing: 20
 
-    Label:
-        text: 'Chart:'
-
-    BoxLayout:
-        orientation: 'horizontal'
+        # Позиционируем сетку в самый верх экрана
+        pos: 0, Window.height - self.height
 
         DonutChart:
-            size_hint: None, None
-            size: Window.width * 0.4, Window.width * 0.4
             angle: 100
 
         DonutChart:
-            size_hint: None, None
-            size: Window.width * 0.4, Window.width * 0.4
             angle: 240
 
-    BoxLayout:
-        orientation: 'horizontal'
+        DonutChart:
+            angle: 200
 
         DonutChart:
-            size_hint: None, None
-            size: Window.width * 0.4, Window.width * 0.4
             angle: 10
 
-        DonutChart:
-            size_hint: None, None
-            size: Window.width * 0.4, Window.width * 0.4
-            angle: 300
+    BoxLayout:
+        size_hint: None, None
+        size: Window.width, Window.height * 0.65
+        pos: 0, 0
 
-
-    Label:
-        text: 'text'
+        Label:
+            text: 'text'
