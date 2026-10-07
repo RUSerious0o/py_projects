@@ -4,14 +4,14 @@
         Color:
             rgba: self.colors[0]
         Ellipse:
-            pos: self.pos
+            pos: self.center_x - self.chart_size[0] / 2, self.center_y - self.chart_size[0] / 2
             size: self.chart_size[0], self.chart_size[0]
 
         # Полоса прогресса
         Color:
             rgba: self.colors[1]
         Ellipse:
-            pos: self.pos
+            pos: self.center_x - self.chart_size[0] / 2, self.center_y - self.chart_size[0] / 2
             size: self.chart_size[0], self.chart_size[0]
             angle_start: 0
             angle_end: self.angle
@@ -21,7 +21,7 @@
         Color:
             rgba: self.colors[2]
         Ellipse:
-            pos: self.pos
+            pos: self.center_x - self.chart_size[0] / 2, self.center_y - self.chart_size[0] / 2
             size: self.chart_size[0], self.chart_size[0]
             angle_start: self.angle
             angle_end: 360
@@ -31,6 +31,6 @@
             rgba: self.colors[3]
         Ellipse:
             size: self.chart_size[1], self.chart_size[1]
-            pos: self.x + self.chart_size[0] * 0.5 - self.chart_size[1] * 0.5, self.y + self.chart_size[0] * 0.5 - self.chart_size[1] * 0.5
+            pos: self.center_x - self.chart_size[1] * 0.5, self.center_y - self.chart_size[1] * 0.5
 
     on_size: root.set_size(self.height)
