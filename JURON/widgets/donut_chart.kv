@@ -34,3 +34,15 @@
             pos: self.center_x - self.chart_size[1] * 0.5, self.center_y - self.chart_size[1] * 0.5
 
     on_size: root.set_size(self.height)
+
+    Label:
+        text: root.text_value
+
+        font_size: min(root.width, root.height) * 0.4
+        bold: True
+        italic: True
+        color: 1, 1, 1, 1  # Белый цвет текста
+
+        # Точное центрирование по координатам родительского виджета DonutChart
+        center_x: root.center_x
+        center_y: root.center_y

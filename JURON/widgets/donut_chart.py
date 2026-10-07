@@ -1,5 +1,5 @@
 from kivy.uix.widget import Widget
-from kivy.properties import ListProperty, NumericProperty, ObjectProperty
+from kivy.properties import ListProperty, NumericProperty, ObjectProperty, StringProperty
 from kivy.graphics.texture import Texture
 
 
@@ -9,6 +9,7 @@ class DonutChart(Widget):
     chart_width = NumericProperty()
     angle = NumericProperty()
     gradient_texture = ObjectProperty(None)
+    text_value = StringProperty('0')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
