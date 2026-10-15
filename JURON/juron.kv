@@ -1,34 +1,4 @@
-#: include widgets/donut_chart.kv
-#:import Window kivy.core.window.Window
+#: include widgets/main_screen.kv
 
-FloatLayout:
-    GridLayout:
-        cols: 2
-        rows: 2
-        size_hint: None, None
-        size: Window.width, Window.height * 0.35
-        padding: 20
-        spacing: 20
-
-        # Позиционируем сетку в самый верх экрана
-        pos: 0, Window.height - self.height
-
-        DonutChart:
-            angle: 100
-
-        DonutChart:
-            angle: 240
-
-        DonutChart:
-            angle: 200
-
-        DonutChart:
-            angle: 10
-
-    BoxLayout:
-        size_hint: None, None
-        size: Window.width, Window.height * 0.65
-        pos: 0, 0
-
-        Label:
-            text: 'text'
+ScreenManager:
+    MainScreen
