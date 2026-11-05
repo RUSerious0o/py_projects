@@ -1,0 +1,61 @@
+<MainScreen>:
+    # Организуем экран вертикально
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color: self.theme_cls.backgroundColor
+
+        # Панель вкладок (MDTabsPrimary)
+        MDTabsPrimary:
+            id: tabs_container
+            # в args[1] хранится текущая вкладка (MDTabsItem)
+            on_tab_switch: related_content.load_slide(related_content.slides[args[1].tab_id])
+
+            # Вкладка 1
+            TabsItem:
+                tab_id: 0
+
+                MDTabsItemIcon:
+                    icon: "format-list-bulleted"
+                MDTabsItemText:
+                    text: "Рационы"
+
+            # Вкладка 2
+            TabsItem:
+                tab_id: 1
+
+                MDTabsItemIcon:
+                    icon: "food-apple"
+                MDTabsItemText:
+                    text: "Ингредиенты"
+
+            # Вкладка 3
+            TabsItem:
+                tab_id: 2
+
+                MDTabsItemIcon:
+                    icon: "food-takeout-box"
+                MDTabsItemText:
+                    text: "Рецепты"
+
+        # Область для отображения контента вкладок
+        MDTabsCarousel:
+            id: related_content
+            size_hint_y: 1.0
+
+            # Контент для Вкладки 1
+            MDScreen:
+                MDLabel:
+                    text: "Контент первой вкладки"
+                    halign: "center"
+
+            # Контент для Вкладки 2
+            MDScreen:
+                MDLabel:
+                    text: "Контент второй вкладки"
+                    halign: "center"
+
+            # Контент для Вкладки 3
+            MDScreen:
+                MDLabel:
+                    text: "Контент третьей вкладки"
+                    halign: "center"
