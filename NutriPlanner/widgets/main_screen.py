@@ -2,6 +2,8 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.tab import MDTabsItem, MDTabsPrimary
 from kivy.properties import NumericProperty
 
+from widgets.products_list import ProductsList
+
 
 class TabsItem(MDTabsItem):
     tab_id = NumericProperty(0)

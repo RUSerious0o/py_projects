@@ -1,3 +1,5 @@
+#: include widgets/products_list.kv
+
 <MainScreen>:
     # Организуем экран вертикально
     MDBoxLayout:
@@ -43,10 +45,7 @@
             size_hint_y: 1.0
 
             # Контент для Вкладки 1
-            MDScreen:
-                MDLabel:
-                    text: "Контент первой вкладки"
-                    halign: "center"
+            ProductsList:
 
             # Контент для Вкладки 2
             MDScreen:

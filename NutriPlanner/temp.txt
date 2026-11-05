@@ -1,0 +1,207 @@
+import os
+from kivy.lang import Builder
+from kivy.properties import StringProperty
+from kivymd.app import MDApp
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.dialog import (
+    MDDialog,
+    MDDialogButtonContainer,
+    MDDialogContentContainer,
+    MDDialogHeadlineText,
+)
+from kivymd.uix.list import (
+    MDListItem,
+    MDListItemHeadlineText,
+    MDListItemSupportingText,
+)
+from kivymd.uix.textfield import MDTextField, MDTextFieldHintText
+
+# KV-разметка интерфейса в стиле KivyMD 2.0
+KV = """
+MDScreen:
+    md_bg_color: self.theme_cls.colorScheme.background
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: "16dp"
+        spacing: "16dp"
+
+        # Заголовок приложения
+        MDLabel:
+            text: "Мой список продуктов"
+            halign: "center"
+            adaptive_height: True
+            font_style: "Headline"
+            role: "medium"
+
+        # Скроллируемый список продуктов
+        MDScrollView:
+            do_scroll_x: False
+
+            MDSelectionList:
+                id: product_list
+                spacing: "8dp"
+
+    # Круглая кнопка "+" (MDFabButton в KivyMD 2.0)
+    MDFabButton:
+        icon: "plus"
+        style: "standard"
+        pos_hint: {"center_x": .5}
+        y: "24dp"
+        on_release: app.show_add_dialog()
+
+
+# Контент для диалогового окна добавления продукта
+<DialogContent>
+    orientation: "vertical"
+    spacing: "12dp"
+    adaptive_height: True
+
+    MDTextField:
+        id: name_field
+        mode: "outlined"
+        MDTextFieldHintText:
+            text: "Название продукта"
+
+    MDBoxLayout:
+        spacing: "8dp"
+        adaptive_height: True
+
+        MDTextField:
+            id: p_field
+            mode: "outlined"
+            input_filter: "float"
+            MDTextFieldHintText:
+                text: "Белки (г)"
+
+        MDTextField:
+            id: f_field
+            mode: "outlined"
+            input_filter: "float"
+            MDTextFieldHintText:
+                text: "Жиры (г)"
+
+    MDBoxLayout:
+        spacing: "8dp"
+        adaptive_height: True
+
+        MDTextField:
+            id: c_field
+            mode: "outlined"
+            input_filter: "float"
+            MDTextFieldHintText:
+                text: "Углеводы (г)"
+
+        MDTextField:
+            id: kcal_field
+            mode: "outlined"
+            input_filter: "float"
+            MDTextFieldHintText:
+                text: "Ккал"
+"""
+
+FILE_NAME = "products.txt"
+
+
+class DialogContent(MDBoxLayout):
+    """Класс-контейнер для полей ввода в диалоговом окне."""
+
+    pass
+
+
+class FoodApp(MDApp):
+    dialog = None
+
+    def build(self):
+        # Настройка цветовой схемы Material Design 3
+        self.theme_cls.theme_style = "Light"
+        self.theme_cls.primary_palette = "Olive"
+        return Builder.load_string(KV)
+
+    def on_start(self):
+        """Вызывается при запуске приложения: загружает данные из файла."""
+        self.load_products_from_file()
+
+    def load_products_from_file(self):
+        """Чтение текстового файла и добавление элементов в список."""
+        if not os.path.exists(FILE_NAME):
+            # Создаем демо-файл, если его нет
+            with open(FILE_NAME, "w", encoding="utf-8") as f:
+                f.write("Куриное филе;23.0;2.0;0.0;110\n")
+                f.write("Гречка вареная;4.2;1.1;21.3;110\n")
+
+        with open(FILE_NAME, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    parts = line.split(";")
+                    if len(parts) == 5:
+                        self.add_product_to_ui(
+                            parts[0], parts[1], parts[2], parts[3], parts[4]
+                        )
+
+    def add_product_to_ui(self, name, p, f, c, kcal):
+        """Создание виджета строки списка по правилам KivyMD 2.0."""
+        bzhuk_text = f"Б: {p}г  |  Ж: {f}г  |  У: {c}г  |  Ккал: {kcal}"
+
+        # В KivyMD 2.0 тексты внутрь элементов списка добавляются как отдельные виджеты
+        item = MDListItem(
+            MDListItemHeadlineText(text=name),
+            MDListItemSupportingText(text=bzhuk_text),
+            radius="12dp",
+            theme_bg_color="Custom",
+            md_bg_color=self.theme_cls.colorScheme.surfaceContainerLow,
+        )
+        self.root.ids.product_list.add_widget(item)
+
+    def show_add_dialog(self):
+        """Открытие диалогового окна с формой ввода."""
+        self.dialog_content = DialogContent()
+
+        self.dialog = MDDialog(
+            MDDialogHeadlineText(text="Новый продукт (на 100г)"),
+            MDDialogContentContainer(self.dialog_content),
+            MDDialogButtonContainer(
+                MDButton(
+                    MDButtonText(text="Отмена"),
+                    style="text",
+                    on_release=self.close_dialog,
+                ),
+                MDButton(
+                    MDButtonText(text="Добавить"),
+                    style="filled",
+                    on_release=self.save_new_product,
+                ),
+                spacing="8dp",
+            ),
+        )
+        self.dialog.open()
+
+    def close_dialog(self, *args):
+        if self.dialog:
+            self.dialog.dismiss()
+
+    def save_new_product(self, *args):
+        """Сохранение продукта в файл и динамическое обновление UI."""
+        dc = self.dialog_content
+
+        # Получаем значения, заменяя пустоту на "0"
+        name = dc.ids.name_field.text.strip() or "Без названия"
+        p = dc.ids.p_field.text.strip() or "0"
+        f = dc.ids.f_field.text.strip() or "0"
+        c = dc.ids.c_field.text.strip() or "0"
+        kcal = dc.ids.kcal_field.text.strip() or "0"
+
+        # 1. Запись в текстовый файл (формат CSV с разделителем ';')
+        with open(FILE_NAME, "a", encoding="utf-8") as f_file:
+            f_file.write(f"{name};{p};{f};{c};{kcal}\n")
+
+        # 2. Динамическое добавление в интерфейс без перезапуска
+        self.add_product_to_ui(name, p, f, c, kcal)
+
+        self.close_dialog()
+
+
+if __name__ == "__main__":
+    FoodApp().run()

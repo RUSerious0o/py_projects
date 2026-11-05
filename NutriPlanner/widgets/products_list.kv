@@ -1,0 +1,20 @@
+<ProductsList>
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: '16dp'
+        spacing: '16dp'
+
+        MDScrollView:
+            do_scroll_x: False
+
+            MDBoxLayout:
+                id: product_list
+                orientation: 'vertical'
+                spacing: "8dp"
+                adaptive_height: True
+
+        MDFabButton:
+            icon: 'plus'
+            style: 'standard'
+            pos_hint: {'center_x': .5}
+            y: '24dp'
